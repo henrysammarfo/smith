@@ -6,30 +6,34 @@ Loop: goal + tools + eval → propose architecture → run eval → fail taxonom
 Domains: (1) messy invoice line-items (2) GROUNDS-lite claim check.
 
 ## Stack
-TanStack Start + Vite (Lovable), Zod, better-sqlite3, OpenAI-compatible LLM client (AgentRouter heal → Ollama fallback), Tavily, TinyFish.
+TanStack Start + Vite (Lovable), Zod, better-sqlite3, OpenAI-compatible LLM client
+(**TensorMux primary** → AgentRouter → Ollama), Tavily, TinyFish.
 
-## Live wiring (verified this session)
-- LLM heal: AgentRouter apex WAF; `co.agentrouter.org` JSON but key 401; Ollama `http://127.0.0.1:11434/v1` + `llama3.2:1b` smoke `SMITH_OK`.
-- Forge smoke (invoices): Gen1 accuracy 0.390 → Gen2 0.723 (Δ +0.333). No mock scores.
+## Live wiring (verified)
+- **LLM:** TensorMux `https://api.tensormux.com/v1` + `glm-4-7-flash` (hackathon credits). Heal smoke `SMITH_OK`.
+- AgentRouter apex still WAF; `co.agentrouter.org` key was 401 — kept as fallback probe only.
+- Ollama local remains last-resort fallback.
+- Forge smoke (invoices @ TensorMux): Gen1 **1.0** accuracy / 5/5 passed (no mock scores).
 - Research: Tavily + TinyFish Search/Fetch (automation credits = 0).
 - Persistence: SQLite under `data/` (gitignored).
-- Server modules live under `src/smith/**` (not `src/server/**` — TanStack import-protection blocks `**/server/**` from client).
+- Server modules under `src/smith/**` (TanStack blocks `**/server/**` from client).
 
 ## Routes
-`/`, marketing pages, `/start`, `/dashboard`, `/dashboard/forge`, `/dashboard/agents`, `/dashboard/runs`, `/brand`.
+`/`, marketing, `/start`, `/dashboard`, `/dashboard/forge`, `/dashboard/agents`, `/dashboard/runs`, `/brand`.
 
 ## AO
 - Judging: operator desktop AO sessions (mandatory for demo video).
-- Cloud: `bun run ao:attempt` downloaded AppImage v0.12.10 under xvfb; **sessionsFabricated=false** (did not register countable session).
+- Cloud AppImage attempt: no countable session; `sessionsFabricated=false`.
 
 ## Contest locks
 - Track: Automated Agent Engineering
 - Submit: Devpost `https://syndicate-by-maximor.devpost.com/`
 - Discord join mandatory; showcase ≠ submit
 - Window: 2026-09-05 21:30 IST → 2026-09-07 03:30 IST
+- Inference sponsor: TensorMux (50M tokens, ~30h window from announcement)
 
 ## Quality
-- `bun run unit` OK, `bun run heal` OK, `bun run smoke` OK, `bun run build` OK
+- `bun run unit` / `heal` / `smoke` / `build` OK against TensorMux
 - Lint: 0 errors (UI-kit react-refresh warnings only)
 
 ## Non-goals (V1)

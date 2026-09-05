@@ -22,7 +22,7 @@ Official submit is **Devpost only**. Discord showcase is optional and does **not
 - [ ] Demo video (product loop **and** AO desktop sessions visible)
 - [ ] How we used AO (paste blurb below)
 - [ ] What we built (meta-forge: propose → eval → taxonomy → mutate → report card)
-- [ ] Built with: TanStack Start, AgentRouter/Ollama OpenAI-compat, Tavily, TinyFish, SQLite
+- [ ] Built with: TanStack Start, TensorMux/AgentRouter/Ollama OpenAI-compat, Tavily, TinyFish, SQLite
 
 ## AO how-we-used (paste-ready)
 
@@ -40,11 +40,11 @@ Official submit is **Devpost only**. Discord showcase is optional and does **not
 4. Second forge generation showing mutation / accuracy Δ
 5. AO desktop: start session, open this project, show session counter
 
-## Metric Δ (live smoke, invoice pack, Ollama llama3.2:1b)
+## Metric Δ (live smoke, invoice pack, TensorMux glm-4-7-flash)
 
 | Pack | Gen1 accuracy | Gen2 accuracy | Δ | Notes |
 |---|---|---|---|---|
-| invoices | 0.390 | 0.723 | +0.333 | Live LLM; no mock scores |
+| invoices | 1.000 | 1.000 | 0 | TensorMux glm-4-7-flash; 5/5 cases |
 | grounds | (run before submit) | | | Needs Tavily + TinyFish network |
 
 ## Discord

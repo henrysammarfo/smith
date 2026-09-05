@@ -29,7 +29,23 @@ export class LlmError extends Error {
 
 function estimateCostUsd(model: string, totalTokens: number): number {
   if (model.includes("llama") || model.includes("ollama")) return 0;
+  // TensorMux hackathon credits — meter tokens but bill USD as 0 for local reporting
+  if (model.includes("glm")) return 0;
   return (totalTokens / 1_000_000) * 0.5;
+}
+
+function extractContent(message: {
+  content?: string | null;
+  reasoning?: string | null;
+}): string | null {
+  if (typeof message.content === "string" && message.content.trim()) {
+    return message.content;
+  }
+  // Some GLM deployments stream thinking into `reasoning` before content.
+  if (typeof message.reasoning === "string" && message.reasoning.trim()) {
+    return message.reasoning;
+  }
+  return null;
 }
 
 export async function chatCompletion(opts: {
@@ -48,15 +64,22 @@ export async function chatCompletion(opts: {
   };
   if (opts.apiKey) headers.Authorization = `Bearer ${opts.apiKey}`;
 
+  const isTensorMux = base.includes("tensormux.com");
+  const body: Record<string, unknown> = {
+    model: opts.model,
+    messages: opts.messages,
+    temperature: opts.temperature ?? 0.2,
+    max_tokens: opts.maxTokens ?? 1200,
+  };
+  // Prefer direct answers for agent loops on TensorMux GLM.
+  if (isTensorMux) {
+    body.chat_template_kwargs = { enable_thinking: false };
+  }
+
   const res = await fetch(`${base}/chat/completions`, {
     method: "POST",
     headers,
-    body: JSON.stringify({
-      model: opts.model,
-      messages: opts.messages,
-      temperature: opts.temperature ?? 0.2,
-      max_tokens: opts.maxTokens ?? 1200,
-    }),
+    body: JSON.stringify(body),
   });
 
   const raw = await res.text();
@@ -77,7 +100,9 @@ export async function chatCompletion(opts: {
 
   let data: {
     model?: string;
-    choices?: Array<{ message?: { content?: string } }>;
+    choices?: Array<{
+      message?: { content?: string | null; reasoning?: string | null };
+    }>;
     usage?: {
       prompt_tokens?: number;
       completion_tokens?: number;
@@ -90,7 +115,7 @@ export async function chatCompletion(opts: {
     throw new LlmError(`LLM returned non-JSON at ${base}`, res.status, raw);
   }
 
-  const content = data.choices?.[0]?.message?.content;
+  const content = extractContent(data.choices?.[0]?.message ?? {});
   if (!content) {
     throw new LlmError(`LLM returned empty content at ${base}`, res.status, raw);
   }
@@ -120,7 +145,8 @@ export async function probeModels(
   try {
     const res = await fetch(`${base}/models`, { headers });
     const text = await res.text();
-    const looksJson = text.trimStart().startsWith("{") || text.trimStart().startsWith("[");
+    const looksJson =
+      text.trimStart().startsWith("{") || text.trimStart().startsWith("[");
     const waf = text.includes("aliyun_waf") || text.includes("<!DOCTYPE");
     return {
       ok: res.ok && looksJson && !waf,
