@@ -1,0 +1,6 @@
+{
+  "id": "gnd_004",
+  "claim": "TinyFish provides a web agent API with Search and Fetch endpoints documented for developers.",
+  "evidenceUrl": "https://docs.tinyfish.ai/agent-api",
+  "expected": "grounded"
+}

@@ -1,0 +1,11 @@
+---
+description: Dashboard UI conventions
+globs: src/routes/dashboard/**/*.tsx,src/components/dashboard/**/*.tsx
+alwaysApply: false
+---
+
+# Dashboard UI
+
+- Live data only from forge server functions / SQLite — never import marketing mocks as metrics.
+- Preserve SMITH black forge visual language (ember accent, metal buttons, grain).
+- Label illustrative marketing numbers as examples if shown outside dashboard.

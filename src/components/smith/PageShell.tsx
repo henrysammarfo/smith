@@ -24,10 +24,7 @@ export function PageShell({
         <SiteHeader />
         <main className="px-5 pt-10 md:px-10 md:pt-16">
           <div className="mx-auto max-w-6xl">
-            <span
-              className="badge-metal appear appear-pop"
-              style={{ ["--d" as string]: "0.22s" }}
-            >
+            <span className="badge-metal appear appear-pop" style={{ ["--d" as string]: "0.22s" }}>
               <Sparkle size={16} />
               {eyebrow}
             </span>

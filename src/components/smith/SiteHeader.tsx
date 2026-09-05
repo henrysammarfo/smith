@@ -36,9 +36,7 @@ export function SiteHeader() {
         onClick={() => setOpen(false)}
         className={cn(
           "fixed inset-0 z-40 bg-[rgba(8,8,8,0.42)] transition-all duration-300 md:hidden",
-          open
-            ? "visible opacity-100 backdrop-blur-[24px]"
-            : "invisible opacity-0",
+          open ? "visible opacity-100 backdrop-blur-[24px]" : "invisible opacity-0",
         )}
       />
       <header className="relative z-50 grid grid-cols-[1fr_auto_auto] items-center gap-2 px-5 pt-[18px] pb-[10px] md:grid-cols-[1fr_auto_1fr] md:px-10 md:pt-[22px]">

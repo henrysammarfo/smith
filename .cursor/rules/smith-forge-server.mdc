@@ -1,0 +1,12 @@
+---
+description: Forge server engine conventions
+globs: src/smith/forge/**/*.ts,src/smith/llm/**/*.ts,src/smith/db/**/*.ts
+alwaysApply: false
+---
+
+# Forge server rules
+
+- Persist generations/runs/traces in SQLite via `src/smith/db/smith-db.ts`.
+- LLM only through `src/smith/llm/client.ts` (AgentRouter heal → OpenAI-compatible).
+- Mutations must change real architecture fields (prompt/tool/memory/router), not UI-only state.
+- Errors: throw typed errors with actionable messages; never swallow into empty scores.

@@ -54,12 +54,8 @@ function Benefits() {
           return (
             <div key={b.title} className="panel p-6">
               <Icon size={22} strokeWidth={1.6} className="text-stat" />
-              <h2 className="mt-5 text-[17px] font-medium tracking-[-0.02em]">
-                {b.title}
-              </h2>
-              <p className="mt-2 text-[13.5px] leading-relaxed text-muted-foreground">
-                {b.body}
-              </p>
+              <h2 className="mt-5 text-[17px] font-medium tracking-[-0.02em]">{b.title}</h2>
+              <p className="mt-2 text-[13.5px] leading-relaxed text-muted-foreground">{b.body}</p>
             </div>
           );
         })}

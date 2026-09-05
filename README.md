@@ -1,26 +1,39 @@
-# SMITH
+# SMITH.forge
 
-GO THROUGH MD ATTACHED ,CREATE GOOD BRAND,logo WILL USE FORR future MERCH AND HODDIES , CREATE FULL PAGES AND ROUTES AND DASHBOARD ALL FLOWS ,ROUTES EERYTHING , USE THE RIGHT PRO PREMIUM ICONS , SUBPAGES FULL should match template prompt design
+Meta-agent forge for **Syndicate by Maximor** — Track **Automated Agent Engineering**.
 
-AND USE THIS TEMPLATE
+Loop: **goal → architecture → eval → fail taxonomy → mutate → report card**.
 
-This project was built with [Lovable](https://lovable.dev).
+## Domains
+1. Messy invoice line-item extraction
+2. GROUNDS-lite claim check (TinyFish fetch + Tavily search)
 
-## Build with Lovable
+## Stack
+TanStack Start + Vite, Zod, better-sqlite3, OpenAI-compatible LLM client (AgentRouter heal → Ollama fallback), Tavily, TinyFish.
 
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/53b5607d-80a7-46d3-a2a7-8251c0cda279).
+**No mock LLM / no fake scores.** If the LLM is unreachable after heal, the forge fails loud.
 
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
-
-## Development
-
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+## Quick start
 
 ```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
+cp .env.example .env   # add keys; never commit .env
+bun install
+bun run heal           # probe AgentRouter + WAF path + Ollama
+bun run unit           # scorer/taxonomy checks
+bun run smoke          # live forgeOnce (needs LLM)
+bun run dev
 ```
+
+Routes: `/` marketing · `/start` · `/dashboard` · `/dashboard/forge` · `/dashboard/agents` · `/dashboard/runs` · `/brand`
+
+## AO (mandatory for judging)
+- **Desktop:** operator runs Agent Orchestrator locally; demo video must show sessions.
+- **Cloud attempt:** `bun run ao:attempt` downloads Linux AppImage and tries xvfb — evidence only; never fabricate sessions.
+
+## Submit
+See **[SUBMIT.md](./SUBMIT.md)** — Devpost is official (`https://syndicate-by-maximor.devpost.com/`). Discord showcase does not count.
+
+## Honesty
+See `docs/THREAT_MODEL.md`. Residual risk remains; we do not claim unhackable.
+
+Built with [Lovable](https://lovable.dev).

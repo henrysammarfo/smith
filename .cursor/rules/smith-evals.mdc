@@ -1,0 +1,11 @@
+---
+description: Eval pack rules
+globs: src/smith/evals/**/*
+alwaysApply: false
+---
+
+# Eval packs
+
+- Fixtures are real files under `fixtures/` (not random stubs).
+- Scorers return numeric metrics: accuracy, reliability, costUsd, latencyMs.
+- Domain packs: `invoices`, `grounds`. Do not invent a third domain without bible/update.

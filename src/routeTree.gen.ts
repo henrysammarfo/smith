@@ -11,11 +11,16 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BenefitsRouteImport } from './routes/benefits'
+import { Route as BrandRouteImport } from './routes/brand'
 import { Route as DemoRouteImport } from './routes/demo'
 import { Route as FaqsRouteImport } from './routes/faqs'
 import { Route as HowItWorksRouteImport } from './routes/how-it-works'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as StartRouteImport } from './routes/start'
+import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
+import { Route as DashboardAgentsRouteImport } from './routes/dashboard/agents'
+import { Route as DashboardForgeRouteImport } from './routes/dashboard/forge'
+import { Route as DashboardRunsRouteImport } from './routes/dashboard/runs'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -25,6 +30,11 @@ const IndexRoute = IndexRouteImport.update({
 const BenefitsRoute = BenefitsRouteImport.update({
   id: '/benefits',
   path: '/benefits',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BrandRoute = BrandRouteImport.update({
+  id: '/brand',
+  path: '/brand',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DemoRoute = DemoRouteImport.update({
@@ -52,73 +62,128 @@ const StartRoute = StartRouteImport.update({
   path: '/start',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardIndexRoute = DashboardIndexRouteImport.update({
+  id: '/dashboard/',
+  path: '/dashboard/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardAgentsRoute = DashboardAgentsRouteImport.update({
+  id: '/dashboard/agents',
+  path: '/dashboard/agents',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardForgeRoute = DashboardForgeRouteImport.update({
+  id: '/dashboard/forge',
+  path: '/dashboard/forge',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRunsRoute = DashboardRunsRouteImport.update({
+  id: '/dashboard/runs',
+  path: '/dashboard/runs',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/benefits': typeof BenefitsRoute
+  '/brand': typeof BrandRoute
   '/demo': typeof DemoRoute
   '/faqs': typeof FaqsRoute
   '/how-it-works': typeof HowItWorksRoute
   '/pricing': typeof PricingRoute
   '/start': typeof StartRoute
+  '/dashboard/agents': typeof DashboardAgentsRoute
+  '/dashboard/forge': typeof DashboardForgeRoute
+  '/dashboard/runs': typeof DashboardRunsRoute
+  '/dashboard/': typeof DashboardIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/benefits': typeof BenefitsRoute
+  '/brand': typeof BrandRoute
   '/demo': typeof DemoRoute
   '/faqs': typeof FaqsRoute
   '/how-it-works': typeof HowItWorksRoute
   '/pricing': typeof PricingRoute
   '/start': typeof StartRoute
+  '/dashboard/agents': typeof DashboardAgentsRoute
+  '/dashboard/forge': typeof DashboardForgeRoute
+  '/dashboard/runs': typeof DashboardRunsRoute
+  '/dashboard': typeof DashboardIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/benefits': typeof BenefitsRoute
+  '/brand': typeof BrandRoute
   '/demo': typeof DemoRoute
   '/faqs': typeof FaqsRoute
   '/how-it-works': typeof HowItWorksRoute
   '/pricing': typeof PricingRoute
   '/start': typeof StartRoute
+  '/dashboard/agents': typeof DashboardAgentsRoute
+  '/dashboard/forge': typeof DashboardForgeRoute
+  '/dashboard/runs': typeof DashboardRunsRoute
+  '/dashboard/': typeof DashboardIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/benefits'
+    | '/brand'
     | '/demo'
     | '/faqs'
     | '/how-it-works'
     | '/pricing'
     | '/start'
+    | '/dashboard/agents'
+    | '/dashboard/forge'
+    | '/dashboard/runs'
+    | '/dashboard/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/benefits'
+    | '/brand'
     | '/demo'
     | '/faqs'
     | '/how-it-works'
     | '/pricing'
     | '/start'
+    | '/dashboard/agents'
+    | '/dashboard/forge'
+    | '/dashboard/runs'
+    | '/dashboard'
   id:
     | '__root__'
     | '/'
     | '/benefits'
+    | '/brand'
     | '/demo'
     | '/faqs'
     | '/how-it-works'
     | '/pricing'
     | '/start'
+    | '/dashboard/agents'
+    | '/dashboard/forge'
+    | '/dashboard/runs'
+    | '/dashboard/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BenefitsRoute: typeof BenefitsRoute
+  BrandRoute: typeof BrandRoute
   DemoRoute: typeof DemoRoute
   FaqsRoute: typeof FaqsRoute
   HowItWorksRoute: typeof HowItWorksRoute
   PricingRoute: typeof PricingRoute
   StartRoute: typeof StartRoute
+  DashboardAgentsRoute: typeof DashboardAgentsRoute
+  DashboardForgeRoute: typeof DashboardForgeRoute
+  DashboardRunsRoute: typeof DashboardRunsRoute
+  DashboardIndexRoute: typeof DashboardIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -135,6 +200,13 @@ declare module '@tanstack/react-router' {
       path: '/benefits'
       fullPath: '/benefits'
       preLoaderRoute: typeof BenefitsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/brand': {
+      id: '/brand'
+      path: '/brand'
+      fullPath: '/brand'
+      preLoaderRoute: typeof BrandRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/demo': {
@@ -172,17 +244,50 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StartRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard/': {
+      id: '/dashboard/'
+      path: '/dashboard'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof DashboardIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard/agents': {
+      id: '/dashboard/agents'
+      path: '/dashboard/agents'
+      fullPath: '/dashboard/agents'
+      preLoaderRoute: typeof DashboardAgentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard/forge': {
+      id: '/dashboard/forge'
+      path: '/dashboard/forge'
+      fullPath: '/dashboard/forge'
+      preLoaderRoute: typeof DashboardForgeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard/runs': {
+      id: '/dashboard/runs'
+      path: '/dashboard/runs'
+      fullPath: '/dashboard/runs'
+      preLoaderRoute: typeof DashboardRunsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BenefitsRoute: BenefitsRoute,
+  BrandRoute: BrandRoute,
   DemoRoute: DemoRoute,
   FaqsRoute: FaqsRoute,
   HowItWorksRoute: HowItWorksRoute,
   PricingRoute: PricingRoute,
   StartRoute: StartRoute,
+  DashboardAgentsRoute: DashboardAgentsRoute,
+  DashboardForgeRoute: DashboardForgeRoute,
+  DashboardRunsRoute: DashboardRunsRoute,
+  DashboardIndexRoute: DashboardIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

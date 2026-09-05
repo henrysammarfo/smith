@@ -4,10 +4,34 @@ import { PageShell } from "@/components/smith/PageShell";
 import { Play, RotateCcw, ArrowRight } from "lucide-react";
 
 const GENERATIONS = [
-  { gen: 1, accuracy: 41, cost: 0.061, latency: 5200, note: "First guess. Single prompt, one tool." },
-  { gen: 3, accuracy: 58, cost: 0.048, latency: 3900, note: "Router added after wrong-tool failures." },
-  { gen: 5, accuracy: 69, cost: 0.031, latency: 2600, note: "Output validator killed schema drift." },
-  { gen: 7, accuracy: 78, cost: 0.021, latency: 2140, note: "Memory window fixed multi-line invoices." },
+  {
+    gen: 1,
+    accuracy: 41,
+    cost: 0.061,
+    latency: 5200,
+    note: "First guess. Single prompt, one tool.",
+  },
+  {
+    gen: 3,
+    accuracy: 58,
+    cost: 0.048,
+    latency: 3900,
+    note: "Router added after wrong-tool failures.",
+  },
+  {
+    gen: 5,
+    accuracy: 69,
+    cost: 0.031,
+    latency: 2600,
+    note: "Output validator killed schema drift.",
+  },
+  {
+    gen: 7,
+    accuracy: 78,
+    cost: 0.021,
+    latency: 2140,
+    note: "Memory window fixed multi-line invoices.",
+  },
 ];
 
 export const Route = createFileRoute("/demo")({
@@ -101,9 +125,7 @@ function Demo() {
           { k: "Latency", v: "−59%" },
         ].map((m) => (
           <div key={m.k} className="panel p-6">
-            <p className="text-[12.5px] tracking-[0.1em] text-muted-foreground uppercase">
-              {m.k}
-            </p>
+            <p className="text-[12.5px] tracking-[0.1em] text-muted-foreground uppercase">{m.k}</p>
             <p className="mt-2 text-[28px] font-medium tracking-[-0.04em]">{m.v}</p>
           </div>
         ))}

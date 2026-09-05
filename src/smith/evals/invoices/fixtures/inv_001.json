@@ -1,0 +1,10 @@
+{
+  "id": "inv_001",
+  "vendor": "Northwind Components Ltd",
+  "text": "INVOICE #NW-88421\nBill To: SMITH Ops\nDate: 2026-08-12\n\nLine items:\n1. Titanium bolts M6 x50        120.00\n2. Heat-shield gasket set         45.50\n3. Overnight freight              18.00\nSubtotal 183.50  Tax 14.68  TOTAL 198.18\nNotes: PO-7781 — please match lines exactly.",
+  "expected": [
+    { "description": "Titanium bolts M6 x50", "amount": 120.0 },
+    { "description": "Heat-shield gasket set", "amount": 45.5 },
+    { "description": "Overnight freight", "amount": 18.0 }
+  ]
+}

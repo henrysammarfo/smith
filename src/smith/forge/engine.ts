@@ -1,0 +1,316 @@
+import { getDb, newId, nowIso } from "../db/smith-db";
+import { defaultInvoiceArchitecture, runInvoicePack } from "../evals/invoices/pack";
+import { defaultGroundsArchitecture, runGroundsPack } from "../evals/grounds/pack";
+import { classifyFailures } from "./taxonomy";
+import { mutateArchitecture } from "./mutate";
+import {
+  AgentArchitectureSchema,
+  type AgentArchitecture,
+  type FailClass,
+  type Metrics,
+  type PackId,
+  type ReportCard,
+  type Trace,
+} from "./types";
+
+export type Workspace = {
+  id: string;
+  name: string;
+  email: string;
+  goal: string;
+  tools: string;
+  evalNotes: string;
+  packId: PackId;
+  createdAt: string;
+};
+
+export type GenerationRecord = {
+  id: string;
+  workspaceId: string;
+  packId: PackId;
+  generation: number;
+  architecture: AgentArchitecture;
+  parentId: string | null;
+  createdAt: string;
+};
+
+export type RunRecord = {
+  id: string;
+  workspaceId: string;
+  generationId: string;
+  packId: PackId;
+  metrics: Metrics;
+  taxonomy: FailClass[];
+  traces: Trace[];
+  createdAt: string;
+};
+
+function baselineArchitecture(packId: PackId, goal: string, tools: string): AgentArchitecture {
+  const base = packId === "invoices" ? defaultInvoiceArchitecture() : defaultGroundsArchitecture();
+  return {
+    ...base,
+    systemPrompt: `${base.systemPrompt}\n\nOperator goal: ${goal}\nAvailable tools: ${tools || base.toolPolicy}`,
+  };
+}
+
+async function executePack(architecture: AgentArchitecture) {
+  if (architecture.packId === "invoices") return runInvoicePack(architecture);
+  return runGroundsPack(architecture);
+}
+
+function mapWorkspace(row: {
+  id: string;
+  name: string;
+  email: string;
+  goal: string;
+  tools: string;
+  eval_notes: string;
+  pack_id: string;
+  created_at: string;
+}): Workspace {
+  return {
+    id: row.id,
+    name: row.name,
+    email: row.email,
+    goal: row.goal,
+    tools: row.tools,
+    evalNotes: row.eval_notes,
+    packId: row.pack_id as PackId,
+    createdAt: row.created_at,
+  };
+}
+
+export function createWorkspace(input: {
+  goal: string;
+  packId: PackId;
+  tools?: string[] | string;
+  name?: string;
+  email?: string;
+  evalNotes?: string;
+}): Workspace {
+  const tools = typeof input.tools === "string" ? input.tools : (input.tools ?? []).join(",");
+  const row = {
+    id: newId("ws"),
+    name: input.name?.trim() || `${input.packId}-workspace`,
+    email: input.email?.trim() || "operator@local",
+    goal: input.goal,
+    tools,
+    eval_notes: input.evalNotes ?? "",
+    pack_id: input.packId,
+    created_at: nowIso(),
+  };
+  getDb()
+    .prepare(
+      `INSERT INTO workspaces (id, name, email, goal, tools, eval_notes, pack_id, created_at)
+       VALUES (@id, @name, @email, @goal, @tools, @eval_notes, @pack_id, @created_at)`,
+    )
+    .run(row);
+  return mapWorkspace(row);
+}
+
+export function getWorkspace(id: string): Workspace | null {
+  const row = getDb().prepare(`SELECT * FROM workspaces WHERE id = ?`).get(id) as
+    Parameters<typeof mapWorkspace>[0] | undefined;
+  return row ? mapWorkspace(row) : null;
+}
+
+export function listWorkspaces(): Workspace[] {
+  const rows = getDb().prepare(`SELECT * FROM workspaces ORDER BY created_at DESC`).all() as Array<
+    Parameters<typeof mapWorkspace>[0]
+  >;
+  return rows.map(mapWorkspace);
+}
+
+function mapGeneration(row: {
+  id: string;
+  workspace_id: string;
+  pack_id: string;
+  generation: number;
+  architecture_json: string;
+  parent_id: string | null;
+  created_at: string;
+}): GenerationRecord {
+  return {
+    id: row.id,
+    workspaceId: row.workspace_id,
+    packId: row.pack_id as PackId,
+    generation: row.generation,
+    architecture: AgentArchitectureSchema.parse(JSON.parse(row.architecture_json)),
+    parentId: row.parent_id,
+    createdAt: row.created_at,
+  };
+}
+
+export function listGenerations(workspaceId?: string): GenerationRecord[] {
+  const db = getDb();
+  const rows = (
+    workspaceId
+      ? db
+          .prepare(`SELECT * FROM generations WHERE workspace_id = ? ORDER BY generation ASC`)
+          .all(workspaceId)
+      : db.prepare(`SELECT * FROM generations ORDER BY created_at DESC LIMIT 50`).all()
+  ) as Array<Parameters<typeof mapGeneration>[0]>;
+  return rows.map(mapGeneration);
+}
+
+export function getGeneration(id: string): GenerationRecord | null {
+  const row = getDb().prepare(`SELECT * FROM generations WHERE id = ?`).get(id) as
+    Parameters<typeof mapGeneration>[0] | undefined;
+  return row ? mapGeneration(row) : null;
+}
+
+function mapRun(row: {
+  id: string;
+  workspace_id: string;
+  generation_id: string;
+  pack_id: string;
+  metrics_json: string;
+  taxonomy_json: string;
+  traces_json: string;
+  created_at: string;
+}): RunRecord {
+  return {
+    id: row.id,
+    workspaceId: row.workspace_id,
+    generationId: row.generation_id,
+    packId: row.pack_id as PackId,
+    metrics: JSON.parse(row.metrics_json) as Metrics,
+    taxonomy: JSON.parse(row.taxonomy_json) as FailClass[],
+    traces: JSON.parse(row.traces_json) as Trace[],
+    createdAt: row.created_at,
+  };
+}
+
+export function listRuns(workspaceId?: string): RunRecord[] {
+  const db = getDb();
+  const rows = (
+    workspaceId
+      ? db
+          .prepare(`SELECT * FROM runs WHERE workspace_id = ? ORDER BY created_at DESC`)
+          .all(workspaceId)
+      : db.prepare(`SELECT * FROM runs ORDER BY created_at DESC LIMIT 50`).all()
+  ) as Array<Parameters<typeof mapRun>[0]>;
+  return rows.map(mapRun);
+}
+
+export async function forgeOnce(workspaceId: string): Promise<{
+  generation: GenerationRecord;
+  run: RunRecord;
+  report: ReportCard;
+}> {
+  const workspace = getWorkspace(workspaceId);
+  if (!workspace) throw new Error(`Workspace not found: ${workspaceId}`);
+
+  const priorGens = listGenerations(workspaceId);
+  const priorRuns = listRuns(workspaceId);
+  const latestGen = priorGens[priorGens.length - 1];
+  const beforeMetrics = priorRuns[0]?.metrics ?? null;
+
+  let architecture: AgentArchitecture;
+  let parentId: string | null = null;
+  let generationNum = 1;
+
+  if (!latestGen) {
+    architecture = baselineArchitecture(workspace.packId, workspace.goal, workspace.tools);
+  } else {
+    parentId = latestGen.id;
+    generationNum = latestGen.generation + 1;
+    const latestRun = priorRuns.find((r) => r.generationId === latestGen.id) ?? priorRuns[0];
+    architecture = await mutateArchitecture(
+      latestGen.architecture,
+      latestRun?.taxonomy ?? [],
+      latestRun?.metrics ?? {
+        accuracy: 0,
+        reliability: 0,
+        costUsd: 0,
+        latencyMs: 0,
+        cases: 0,
+        passed: 0,
+      },
+    );
+  }
+
+  const generation: GenerationRecord = {
+    id: newId("gen"),
+    workspaceId,
+    packId: workspace.packId,
+    generation: generationNum,
+    architecture,
+    parentId,
+    createdAt: nowIso(),
+  };
+  getDb()
+    .prepare(
+      `INSERT INTO generations (id, workspace_id, pack_id, generation, architecture_json, parent_id, created_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?)`,
+    )
+    .run(
+      generation.id,
+      generation.workspaceId,
+      generation.packId,
+      generation.generation,
+      JSON.stringify(generation.architecture),
+      generation.parentId,
+      generation.createdAt,
+    );
+
+  const { metrics, traces } = await executePack(architecture);
+  const taxonomy = classifyFailures(traces);
+  const run: RunRecord = {
+    id: newId("run"),
+    workspaceId,
+    generationId: generation.id,
+    packId: workspace.packId,
+    metrics,
+    taxonomy,
+    traces,
+    createdAt: nowIso(),
+  };
+  getDb()
+    .prepare(
+      `INSERT INTO runs (id, workspace_id, generation_id, pack_id, metrics_json, taxonomy_json, traces_json, created_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+    )
+    .run(
+      run.id,
+      run.workspaceId,
+      run.generationId,
+      run.packId,
+      JSON.stringify(run.metrics),
+      JSON.stringify(run.taxonomy),
+      JSON.stringify(run.traces),
+      run.createdAt,
+    );
+
+  const report: ReportCard = {
+    before: beforeMetrics,
+    after: metrics,
+    delta: {
+      accuracy: metrics.accuracy - (beforeMetrics?.accuracy ?? 0),
+      reliability: metrics.reliability - (beforeMetrics?.reliability ?? 0),
+      costUsd: metrics.costUsd - (beforeMetrics?.costUsd ?? 0),
+      latencyMs: metrics.latencyMs - (beforeMetrics?.latencyMs ?? 0),
+    },
+    taxonomy,
+    generation: generationNum,
+  };
+
+  return { generation, run, report };
+}
+
+export function dashboardSummary() {
+  const workspaces = listWorkspaces();
+  const generations = listGenerations();
+  const runs = listRuns();
+  const latest = runs[0];
+  return {
+    workspaceCount: workspaces.length,
+    generationCount: generations.length,
+    runCount: runs.length,
+    latestMetrics: latest?.metrics ?? null,
+    latestTaxonomy: latest?.taxonomy ?? [],
+    workspaces,
+    generations: generations.slice(0, 20),
+    runs: runs.slice(0, 20),
+  };
+}

@@ -1,0 +1,42 @@
+# FACT_CHECK — live-verified claims (Syndicate by Maximor / SMITH)
+
+Last updated: 2026-09-05 (Cloud Agent session). Sources: Luma schema.org Event JSON, TinyFish `/v1/fetch` + `/v1/search`, Tavily search, AO GitHub releases, official brief paste.
+
+## Verified
+
+| Claim | Status | Source |
+|---|---|---|
+| Event name = Syndicate by Maximor, hosted by AO (Agent Orchestrator) | VERIFIED | Luma `https://luma.com/d0kq45ek` |
+| Window = 2026-09-05 21:30 IST → 2026-09-07 03:30 IST (= 2026-09-05 12:00 EDT → 2026-09-06 18:00 EDT) | VERIFIED | Official brief + Luma start/end |
+| Pool = $10,000 ($3k Maximor cash + $3k Dodo + $4k AI Grants India) | VERIFIED | Luma description + official brief |
+| Track 1 name = Automated Agent Engineering | VERIFIED | Official brief / Luma tracks |
+| Track 1 1st = $1k cash + $1k Dodo; 2nd = $500+$500; 20×$100 credits | VERIFIED | Official brief + Luma |
+| AO mandatory; demo must show AO sessions used | VERIFIED | Official brief + Luma |
+| Official submit = Devpost only | VERIFIED | Official brief (`syndicate-by-maximor.devpost.com`) |
+| Discord join mandatory (showcase ≠ submit) | VERIFIED | Official brief |
+| Pass URL host = aoagents.dev | VERIFIED | Official brief + Luma |
+| AO product = desktop Agent Orchestrator (Untrivial-ai/agent-orchestrator), Linux AppImage exists | VERIFIED | GitHub releases v0.12.10 |
+| TinyFish Search/Fetch live with X-API-Key at agent.tinyfish.ai | VERIFIED | Live API calls this session |
+| TinyFish automation credits = 0 | VERIFIED | Live 403 insufficient credits |
+| Tavily search live | VERIFIED | Live API this session |
+| AgentRouter apex `agentrouter.org` = Aliyun WAF HTML from this VM | VERIFIED | Live curl/Chrome |
+| AgentRouter `co.agentrouter.org/v1` = real JSON API (WAF bypass host) | VERIFIED | Live curl (401 Invalid API Key with provided key) |
+| Provided AgentRouter key currently rejected as Invalid API Key on bypass host | VERIFIED | Live 401 |
+| Local OpenAI-compatible heal via Ollama `llama3.2:1b` returns live completions | VERIFIED | `SMITH_OK` chat smoke |
+| Medium “Cracking Syndicate” Arweave/aos/Lua AO = wrong product for this hackathon | VERIFIED | Conflicts with aoagents.dev + Luma presenter |
+
+## Corrected vs uploaded SMITH_BIBLE
+
+| Bible text | Correction |
+|---|---|
+| Submit Discord `#syndicate-project-showcase` only | **Devpost is official**; Discord showcase optional |
+| Partners TensorMux / Neatlogs naming | Brief uses **TensorMux** + **Neatlogs**; keep as named |
+| ~48h handwave | Use exact IST/EDT window above |
+| Pass aoagents.dev path variants | Prefer brief: `https://aoagents.dev/hackathons/syndicate/pass/` |
+
+## Residual risk (honest)
+
+- Secrets pasted in chat history should be rotated after the event.
+- WAF may change; heal script must re-probe.
+- Local Ollama is live inference, not a score mock — still not a substitute for sponsor AgentRouter once a valid key exists.
+- Never claim unhackable / nation-state-proof.
