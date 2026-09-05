@@ -20,7 +20,7 @@ export const Route = createFileRoute("/how-it-works")({
       },
     ],
   }),
-  component: HowItWorks;
+  component: HowItWorks,
 });
 
 function HowItWorks() {
