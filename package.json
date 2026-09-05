@@ -13,6 +13,7 @@
     "heal": "bun scripts/heal-agentrouter.ts",
     "unit": "bun scripts/unit-evals.ts",
     "smoke": "bun scripts/smoke-forge.ts",
+    "stress": "bun scripts/stress-forge.ts",
     "ao:attempt": "bun scripts/ao-cloud-attempt.ts"
   },
   "overrides": {
