@@ -34,3 +34,8 @@
 - Confirmed no live API keys in tracked MDs/JSON; `.env` gitignored; docs use `YOUR_*` placeholders.
 - README: Windows clone + secrets doctrine + OpenCode/TensorMux AO path.
 - Merge Track-1 branch → `main`; set GitHub repo visibility public for operator clone + Devpost.
+
+## 2026-09-06 — Merged to main; public visibility needs owner
+- Merged `cursor/smith-forge-track1-255e` → `main` (`39077e2`) and pushed.
+- Secret scan clean; `.env` gitignored.
+- `gh`/`API` cannot set visibility (403 Resource not accessible by integration). Owner must: Settings → Danger Zone → Change visibility → Public.
