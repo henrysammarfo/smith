@@ -84,7 +84,11 @@ See **[SUBMIT.md](./SUBMIT.md)** — official submit is **Devpost** only.
 
 ## Live site
 
-Deployed on Vercel — link added after deploy.
+**https://smith-teamtitanlink.vercel.app**
+
+Also: https://smith-tawny-omega.vercel.app
+
+Forge on Vercel needs your API keys in the Vercel project env (same names as `.env.example`). Local `bun run smoke` already proved Gen1 → Gen2 learning.
 
 ## Honest notes
 

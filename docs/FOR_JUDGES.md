@@ -39,6 +39,11 @@ Made with https://github.com/excalidraw/mermaid-to-excalidraw and https://github
 - Not real: we never invent AO session counts  
 - Cloud AO AppImage may not count — desktop AO is the judging path  
 
+## Live demo
+
+https://smith-teamtitanlink.vercel.app  
+Forge UI: https://smith-teamtitanlink.vercel.app/dashboard/forge
+
 ## Repo + run
 
 ```sh

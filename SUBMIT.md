@@ -22,7 +22,7 @@ Not domain polish. **Learning loops**: self-reflection, growing memory, tool/con
 - [ ] Project title: SMITH.forge
 - [ ] Track = Automated Agent Engineering
 - [ ] Public GitHub repo URL
-- [ ] Live demo / deploy link
+- [x] Live demo / deploy link — https://smith-teamtitanlink.vercel.app
 - [ ] Demo video (learning loop **and** AO desktop sessions visible)
 - [ ] How we used AO (paste blurb below)
 - [ ] What we built: meta-forge with durable memory + reflection (propose → eval → taxonomy → reflect → remember → mutate → report)
