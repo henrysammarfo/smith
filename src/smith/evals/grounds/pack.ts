@@ -3,6 +3,8 @@ import { join } from "node:path";
 import { smithChat } from "../../llm/client";
 import { tinyFishFetch } from "../../tools/tinyfish";
 import { tavilySearch } from "../../tools/tavily";
+import { toolPromptBlock } from "../../tools/catalog";
+import { aggregateTrialMetrics, evalTrialCount } from "../../forge/trials";
 import type { AgentArchitecture, Metrics, Trace } from "../../forge/types";
 
 export type GroundsCase = {
@@ -20,20 +22,28 @@ export function loadGroundsCases(): GroundsCase[] {
   return readdirSync(fixturesDir())
     .filter((f) => f.endsWith(".json"))
     .sort()
-    .map((f) => JSON.parse(readFileSync(join(fixturesDir(), f), "utf8")) as GroundsCase);
+    .map(
+      (f) =>
+        JSON.parse(readFileSync(join(fixturesDir(), f), "utf8")) as GroundsCase,
+    );
 }
 
 export function defaultGroundsArchitecture(): AgentArchitecture {
+  const tools = toolPromptBlock([
+    "smith.tinyfish.fetch",
+    "smith.tavily.search",
+  ]);
   return {
     name: "grounds-lite-v1",
     packId: "grounds",
     systemPrompt:
-      'You are a claim auditor. Given a claim and evidence text, answer with ONLY JSON: {"verdict":"grounded"|"ungrounded","rationale":string}. Grounded means the evidence supports the claim. Ungrounded means it contradicts or does not support the claim. Never invent evidence.',
+      'You are a claim auditor. Given a claim and evidence text, answer with ONLY JSON: {"verdict":"grounded"|"ungrounded","rationale":string}. Grounded means the evidence supports the claim. Ungrounded means it contradicts or does not support the claim. Never invent evidence.\n\nAvailable tools:\n' +
+      tools,
     routerHint: "fetch_evidence_then_judge",
     memoryPolicy: "per_case_only",
     toolPolicy: "tinyfish_fetch_and_tavily_search",
     outputContract: '{"verdict":"grounded"|"ungrounded","rationale":string}',
-    notes: "baseline",
+    notes: "baseline — TinyFish fetch before Tavily search",
   };
 }
 
@@ -57,10 +67,12 @@ export async function runGroundsCase(
   const started = Date.now();
   let evidence = "";
   let costUsd = 0;
+  const toolTrace: string[] = [];
   try {
     if (architecture.toolPolicy.includes("tinyfish")) {
       const fetched = await tinyFishFetch([testCase.evidenceUrl]);
-      evidence += fetched
+      toolTrace.push(fetched.tool);
+      evidence += fetched.results
         .map((f) => f.text)
         .join("\n")
         .slice(0, 6000);
@@ -71,6 +83,7 @@ export async function runGroundsCase(
   try {
     if (architecture.toolPolicy.includes("tavily")) {
       const search = await tavilySearch(testCase.claim, { maxResults: 3 });
+      toolTrace.push(search.tool);
       evidence += `\nSEARCH_ANSWER: ${search.answer ?? ""}\n`;
       evidence += search.results
         .map((r) => `${r.title}: ${r.content}`)
@@ -99,10 +112,14 @@ export async function runGroundsCase(
     ok,
     expected: testCase.expected,
     actual: verdict,
-    errorClass: ok ? undefined : verdict === "unknown" ? "parse_failure" : "wrong_verdict",
+    errorClass: ok
+      ? undefined
+      : verdict === "unknown"
+        ? "parse_failure"
+        : "wrong_verdict",
     latencyMs: Date.now() - started,
     costUsd,
-    raw: result.content.slice(0, 500),
+    raw: `${toolTrace.join(",")} | ${result.content.slice(0, 400)}`,
   };
 }
 
@@ -110,20 +127,16 @@ export async function runGroundsPack(
   architecture: AgentArchitecture,
 ): Promise<{ metrics: Metrics; traces: Trace[] }> {
   const cases = loadGroundsCases();
+  const trialsPerCase = evalTrialCount();
   const traces: Trace[] = [];
   for (const c of cases) {
-    traces.push(await runGroundsCase(architecture, c));
+    for (let i = 0; i < trialsPerCase; i += 1) {
+      traces.push(await runGroundsCase(architecture, c));
+    }
   }
-  const passed = traces.filter((t) => t.ok).length;
-  return {
-    metrics: {
-      accuracy: passed / Math.max(traces.length, 1),
-      reliability: passed / Math.max(traces.length, 1),
-      costUsd: traces.reduce((s, t) => s + t.costUsd, 0),
-      latencyMs: traces.reduce((s, t) => s + t.latencyMs, 0) / Math.max(traces.length, 1),
-      cases: traces.length,
-      passed,
-    },
-    traces,
-  };
+  const metrics = aggregateTrialMetrics(traces, {
+    trialsPerCase,
+    capabilityColdStart: architecture.toolPolicy.includes("llm_only"),
+  });
+  return { metrics, traces };
 }

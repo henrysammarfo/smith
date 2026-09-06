@@ -1,4 +1,5 @@
 import { getEnv } from "../env";
+import { SMITH_TOOLS, truncateToolText } from "./catalog";
 
 export type TinyFishSearchHit = {
   title: string;
@@ -6,10 +7,16 @@ export type TinyFishSearchHit = {
   snippet: string;
 };
 
-export async function tinyFishSearch(query: string): Promise<TinyFishSearchHit[]> {
+export const TINYFISH_SEARCH_TOOL_ID = SMITH_TOOLS["smith.tinyfish.search"]!.id;
+export const TINYFISH_FETCH_TOOL_ID = SMITH_TOOLS["smith.tinyfish.fetch"]!.id;
+
+export async function tinyFishSearch(
+  query: string,
+): Promise<{ tool: string; results: TinyFishSearchHit[] }> {
   const env = getEnv();
   if (!env.TINYFISH_API_KEY) throw new Error("TINYFISH_API_KEY missing");
   const base = env.TINYFISH_BASE_URL.replace(/\/$/, "");
+  const maxChars = SMITH_TOOLS["smith.tinyfish.search"]!.maxChars;
   const url = new URL(`${base}/search`);
   url.searchParams.set("query", query);
   const res = await fetch(url, {
@@ -25,19 +32,23 @@ export async function tinyFishSearch(query: string): Promise<TinyFishSearchHit[]
   const data = JSON.parse(raw) as {
     results?: Array<{ title?: string; url?: string; snippet?: string }>;
   };
-  return (data.results ?? []).map((r) => ({
-    title: r.title ?? "",
-    url: r.url ?? "",
-    snippet: r.snippet ?? "",
-  }));
+  return {
+    tool: TINYFISH_SEARCH_TOOL_ID,
+    results: (data.results ?? []).map((r) => ({
+      title: r.title ?? "",
+      url: r.url ?? "",
+      snippet: truncateToolText(r.snippet ?? "", Math.floor(maxChars / 3)),
+    })),
+  };
 }
 
 export async function tinyFishFetch(
   urls: string[],
-): Promise<Array<{ url: string; title: string; text: string }>> {
+): Promise<{ tool: string; results: Array<{ url: string; title: string; text: string }> }> {
   const env = getEnv();
   if (!env.TINYFISH_API_KEY) throw new Error("TINYFISH_API_KEY missing");
   const base = env.TINYFISH_BASE_URL.replace(/\/$/, "");
+  const maxChars = SMITH_TOOLS["smith.tinyfish.fetch"]!.maxChars;
   const res = await fetch(`${base}/fetch`, {
     method: "POST",
     headers: {
@@ -54,9 +65,12 @@ export async function tinyFishFetch(
   const data = JSON.parse(raw) as {
     results?: Array<{ url?: string; title?: string; text?: string }>;
   };
-  return (data.results ?? []).map((r) => ({
-    url: r.url ?? "",
-    title: r.title ?? "",
-    text: r.text ?? "",
-  }));
+  return {
+    tool: TINYFISH_FETCH_TOOL_ID,
+    results: (data.results ?? []).map((r) => ({
+      url: r.url ?? "",
+      title: r.title ?? "",
+      text: truncateToolText(r.text ?? "", maxChars),
+    })),
+  };
 }

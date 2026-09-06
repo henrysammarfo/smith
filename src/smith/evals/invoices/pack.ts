@@ -1,6 +1,7 @@
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { smithChat } from "../../llm/client";
+import { aggregateTrialMetrics, evalTrialCount } from "../../forge/trials";
 import type { AgentArchitecture, Metrics, Trace } from "../../forge/types";
 
 export type InvoiceLine = { description: string; amount: number };
@@ -19,7 +20,10 @@ export function loadInvoiceCases(): InvoiceCase[] {
   return readdirSync(fixturesDir())
     .filter((f) => f.endsWith(".json"))
     .sort()
-    .map((f) => JSON.parse(readFileSync(join(fixturesDir(), f), "utf8")) as InvoiceCase);
+    .map(
+      (f) =>
+        JSON.parse(readFileSync(join(fixturesDir(), f), "utf8")) as InvoiceCase,
+    );
 }
 
 function normDesc(s: string): string {
@@ -72,7 +76,7 @@ function parseLines(content: string): InvoiceLine[] {
 }
 
 export function defaultInvoiceArchitecture(): AgentArchitecture {
-  // Intentionally weak cold-start so Track-1 learning (memory + reflection + mutate) is visible.
+  // Intentionally weak cold-start so Track-1 learning is visible (capability suite).
   return {
     name: "invoice-line-smith-v0-cold",
     packId: "invoices",
@@ -126,26 +130,25 @@ export async function runInvoicePack(
   architecture: AgentArchitecture,
 ): Promise<{ metrics: Metrics; traces: Trace[] }> {
   const cases = loadInvoiceCases();
+  const trialsPerCase = evalTrialCount();
   const traces: Trace[] = [];
   for (const c of cases) {
-    traces.push(await runInvoiceCase(architecture, c));
+    for (let i = 0; i < trialsPerCase; i += 1) {
+      traces.push(await runInvoiceCase(architecture, c));
+    }
   }
-  const accuracy =
-    traces.reduce((sum, t) => {
-      const expected = JSON.parse(t.expected) as InvoiceLine[];
-      const actual = JSON.parse(t.actual) as InvoiceLine[];
-      return sum + scoreInvoiceLines(expected, actual).accuracy;
-    }, 0) / Math.max(traces.length, 1);
-  const passed = traces.filter((t) => t.ok).length;
-  return {
-    metrics: {
-      accuracy,
-      reliability: passed / Math.max(traces.length, 1),
-      costUsd: traces.reduce((s, t) => s + t.costUsd, 0),
-      latencyMs: traces.reduce((s, t) => s + t.latencyMs, 0) / Math.max(traces.length, 1),
-      cases: traces.length,
-      passed,
-    },
-    traces,
-  };
+  const cold =
+    architecture.outputContract === "freeform" ||
+    architecture.routerHint === "unstructured";
+  const metrics = aggregateTrialMetrics(traces, {
+    trialsPerCase,
+    capabilityColdStart: cold,
+    accuracyFromTraces: (reps) =>
+      reps.reduce((sum, t) => {
+        const expected = JSON.parse(t.expected) as InvoiceLine[];
+        const actual = JSON.parse(t.actual) as InvoiceLine[];
+        return sum + scoreInvoiceLines(expected, actual).accuracy;
+      }, 0) / Math.max(reps.length, 1),
+  });
+  return { metrics, traces };
 }

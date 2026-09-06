@@ -32,6 +32,10 @@ type ReportView = {
     reliability: number;
     costUsd: number;
     latencyMs: number;
+    passAtK?: number;
+    passCaretK?: number;
+    trialsPerCase?: number;
+    suiteKind?: string;
   };
   delta: {
     accuracy: number;
@@ -247,6 +251,34 @@ function ForgePage() {
               hint={`+${lastReport.memoriesAdded?.length ?? 0} this run`}
             />
           </div>
+
+          {lastReport.after.passAtK != null || lastReport.after.suiteKind ? (
+            <div className="mt-4 grid gap-4 md:grid-cols-3">
+              <MetricCard
+                label="pass@k"
+                value={
+                  lastReport.after.passAtK != null
+                    ? formatPct(lastReport.after.passAtK)
+                    : "—"
+                }
+                hint={`k=${lastReport.after.trialsPerCase ?? 1}`}
+              />
+              <MetricCard
+                label="pass^k"
+                value={
+                  lastReport.after.passCaretK != null
+                    ? formatPct(lastReport.after.passCaretK)
+                    : "—"
+                }
+                hint="all-trial reliability"
+              />
+              <MetricCard
+                label="Suite"
+                value={lastReport.after.suiteKind ?? "mixed"}
+                hint="capability vs regression"
+              />
+            </div>
+          ) : null}
 
           {lastReport.trajectory && lastReport.trajectory.length > 0 ? (
             <div className="mt-6">

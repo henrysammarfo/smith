@@ -23,3 +23,15 @@
 - Added SQLite `memories`/`reflections`, `reflectAndRemember`, eval-time memory inject, cold-start weaken + harder invoice fixtures.
 - Mutate hardens freeform → JSON contract; forge UI shows trajectory/reflection/memory; `docs/TRACK1_DEMO.md`.
 - Live smoke: Gen1 accuracy **0.0** → Gen2 **1.0** (7 cases); durable memories 3→6; reflections 2; `LEARNING_VISIBLE` / `SMOKE_OK`.
+
+## 2026-09-06 — Research ingest + eval/tool breakthroughs + AO coding-agent gate
+- Fetched Anthropic evals/tools posts, Claude Managed Agents, Maximor; Tavily+TinyFish live crawl → `docs/research/`.
+- Wired Anthropic-style `passAtK`/`passCaretK`/`suiteKind`, tool catalog (namespaced + truncated), `bun run research`.
+- Documented AO next step: install Claude Code/Codex/opencode/Copilot CLI on PATH (`docs/AO_DESKTOP_SETUP.md` §3a).
+- Re-smoke: Gen1 0→Gen2 1, passAtK 0→1, suiteKind capability→regression, memories 4→8.
+
+## 2026-09-06 — Research ingest + eval/tool breakthroughs + AO coding-agent gate
+- Fetched Anthropic evals/tools posts, Claude Managed Agents, Maximor; Tavily+TinyFish live crawl → `docs/research/`.
+- Wired Anthropic-style `passAtK`/`passCaretK`/`suiteKind`, tool catalog (namespaced + truncated), `bun run research`.
+- Documented AO next step: install Claude Code/Codex/opencode/Copilot CLI on PATH (`docs/AO_DESKTOP_SETUP.md` §3a).
+- Re-smoke: Gen1 0→Gen2 1, passAtK 0→1, suiteKind capability→regression, memories 4→8.

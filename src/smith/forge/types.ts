@@ -22,6 +22,12 @@ export const MetricsSchema = z.object({
   latencyMs: z.number(),
   cases: z.number(),
   passed: z.number(),
+  /** Anthropic-style multi-trial: ≥1 success in k trials */
+  passAtK: z.number().optional(),
+  /** Anthropic-style multi-trial: success on all k trials */
+  passCaretK: z.number().optional(),
+  trialsPerCase: z.number().optional(),
+  suiteKind: z.enum(["capability", "regression", "mixed"]).optional(),
 });
 export type Metrics = z.infer<typeof MetricsSchema>;
 

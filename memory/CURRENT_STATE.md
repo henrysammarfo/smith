@@ -25,12 +25,16 @@ TanStack Start + Vite (Lovable), Zod, better-sqlite3, OpenAI-compatible LLM clie
 - Post-run `reflectAndRemember` writes reflection + durable lessons.
 - Next gen: mutate hardens JSON contract; memory block injected at eval time only.
 - UI `/dashboard/forge` shows reflection, new memories, trajectory, growing memory panel.
+- Anthropic-style multi-trial metrics: `passAtK` / `passCaretK` / `suiteKind` (capability vs regression).
+- Tool catalog: namespaced Tavily/TinyFish ids + truncated returns (`src/smith/tools/catalog.ts`).
+- Research ingest: `bun run research` (Tavily + TinyFish → `docs/research/` + seeded memories).
 
 ## Routes
 `/`, marketing, `/start`, `/dashboard`, `/dashboard/forge`, `/dashboard/agents`, `/dashboard/runs`, `/brand`.
 
 ## AO
 - Judging: operator desktop AO sessions (mandatory for demo video).
+- **Next step after AO install:** install one coding-agent CLI on PATH (Claude Code / Codex / opencode / Copilot) — see `docs/AO_DESKTOP_SETUP.md` §3a + screenshot `docs/research/ao-coding-agent-gate.png`.
 - Cloud AppImage attempt: no countable session; `sessionsFabricated=false`.
 
 ## Contest locks
@@ -41,7 +45,8 @@ TanStack Start + Vite (Lovable), Zod, better-sqlite3, OpenAI-compatible LLM clie
 - Inference sponsor: TensorMux (50M tokens, ~30h window from announcement)
 
 ## Quality
-- `bun run unit` OK; `bun run smoke` OK — Gen1 **0.0** → Gen2 **1.0**, memories 3→6, reflections 2 (TensorMux)
+- `bun run unit` OK; `bun run smoke` OK — Gen1 **0.0** → Gen2 **1.0**, passAtK 0→1, suiteKind capability→regression; `bun run research` OK
+- `bun run research` OK — Tavily+TinyFish ingest + LESSONS.md
 - Lint: 0 errors (UI-kit react-refresh warnings only)
 
 ## Non-goals (V1)

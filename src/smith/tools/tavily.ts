@@ -1,4 +1,5 @@
 import { getEnv } from "../env";
+import { SMITH_TOOLS, truncateToolText } from "./catalog";
 
 export type TavilyResult = {
   title: string;
@@ -6,12 +7,16 @@ export type TavilyResult = {
   content: string;
 };
 
+/** Namespaced tool id for agent prompts / traces */
+export const TAVILY_TOOL_ID = SMITH_TOOLS["smith.tavily.search"]!.id;
+
 export async function tavilySearch(
   query: string,
   opts?: { maxResults?: number },
-): Promise<{ answer?: string; results: TavilyResult[] }> {
+): Promise<{ tool: string; answer?: string; results: TavilyResult[] }> {
   const key = getEnv().TAVILY_API_KEY;
   if (!key) throw new Error("TAVILY_API_KEY missing");
+  const maxChars = SMITH_TOOLS["smith.tavily.search"]!.maxChars;
   const res = await fetch("https://api.tavily.com/search", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -32,11 +37,12 @@ export async function tavilySearch(
     results?: Array<{ title?: string; url?: string; content?: string }>;
   };
   return {
-    answer: data.answer,
+    tool: TAVILY_TOOL_ID,
+    answer: data.answer ? truncateToolText(data.answer, 400) : undefined,
     results: (data.results ?? []).map((r) => ({
       title: r.title ?? "",
       url: r.url ?? "",
-      content: r.content ?? "",
+      content: truncateToolText(r.content ?? "", Math.floor(maxChars / 3)),
     })),
   };
 }
