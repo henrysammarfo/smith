@@ -43,6 +43,24 @@ export function getDb(): Database.Database {
       created_at TEXT NOT NULL,
       FOREIGN KEY(generation_id) REFERENCES generations(id)
     );
+    CREATE TABLE IF NOT EXISTS memories (
+      id TEXT PRIMARY KEY,
+      workspace_id TEXT NOT NULL,
+      kind TEXT NOT NULL,
+      content TEXT NOT NULL,
+      source_run_id TEXT,
+      generation INTEGER NOT NULL,
+      created_at TEXT NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS reflections (
+      id TEXT PRIMARY KEY,
+      workspace_id TEXT NOT NULL,
+      run_id TEXT NOT NULL,
+      generation INTEGER NOT NULL,
+      reflection TEXT NOT NULL,
+      lessons_json TEXT NOT NULL,
+      created_at TEXT NOT NULL
+    );
   `);
   dbSingleton = db;
   return db;

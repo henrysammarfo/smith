@@ -11,6 +11,7 @@ import {
   listRuns,
   listWorkspaces,
 } from "./engine";
+import { listMemories, listReflections } from "./memory";
 
 const packIdSchema = z.enum(["invoices", "grounds"]);
 
@@ -59,6 +60,13 @@ export const getGenerationFn = createServerFn({ method: "GET" })
 export const listRunsFn = createServerFn({ method: "GET" })
   .validator(z.object({ workspaceId: z.string().optional() }).optional())
   .handler(({ data }) => listRuns(data?.workspaceId));
+
+export const listLearningFn = createServerFn({ method: "GET" })
+  .validator(z.object({ workspaceId: z.string().min(1) }))
+  .handler(({ data }) => ({
+    memories: listMemories(data.workspaceId),
+    reflections: listReflections(data.workspaceId),
+  }));
 
 export const forgeOnceFn = createServerFn({ method: "POST" })
   .validator(z.object({ workspaceId: z.string().min(1) }))

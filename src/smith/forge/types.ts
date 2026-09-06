@@ -46,6 +46,13 @@ export const TraceSchema = z.object({
 });
 export type Trace = z.infer<typeof TraceSchema>;
 
+export type LearningMemory = {
+  id: string;
+  kind: string;
+  content: string;
+  generation: number;
+};
+
 export type ReportCard = {
   before: Metrics | null;
   after: Metrics;
@@ -57,4 +64,12 @@ export type ReportCard = {
   };
   taxonomy: FailClass[];
   generation: number;
+  /** Track-1: self-reflection after this run */
+  reflection?: string;
+  /** Track-1: new durable memories written this run */
+  memoriesAdded?: LearningMemory[];
+  /** Track-1: total memory size after this run */
+  memoryCount?: number;
+  /** Track-1: accuracy trajectory across generations in workspace */
+  trajectory?: Array<{ generation: number; accuracy: number; costUsd: number; latencyMs: number }>;
 };

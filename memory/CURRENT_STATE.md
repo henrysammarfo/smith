@@ -2,8 +2,11 @@
 
 ## Product
 **SMITH** = meta-agent forge for Syndicate Track 1 (**Automated Agent Engineering**).
-Loop: goal + tools + eval → propose architecture → run eval → fail taxonomy → mutate → report card.
+Loop: goal + tools + eval → propose architecture → run eval → fail taxonomy → **self-reflect** → **durable memory** → mutate → report card with trajectory.
 Domains: (1) messy invoice line-items (2) GROUNDS-lite claim check.
+
+## Track-1 judging focus
+Judges ask: learning over time, visible reflection/memory growth, contextual tool lessons reused later, cost/speed balance — **not** domain polish or auth.
 
 ## Stack
 TanStack Start + Vite (Lovable), Zod, better-sqlite3, OpenAI-compatible LLM client
@@ -13,10 +16,15 @@ TanStack Start + Vite (Lovable), Zod, better-sqlite3, OpenAI-compatible LLM clie
 - **LLM:** TensorMux `https://api.tensormux.com/v1` + `glm-4-7-flash` (hackathon credits). Heal smoke `SMITH_OK`.
 - AgentRouter apex still WAF; `co.agentrouter.org` key was 401 — kept as fallback probe only.
 - Ollama local remains last-resort fallback.
-- Forge smoke (invoices @ TensorMux): Gen1 **1.0** accuracy / 5/5 passed (no mock scores).
-- Research: Tavily + TinyFish Search/Fetch (automation credits = 0).
-- Persistence: SQLite under `data/` (gitignored).
+- Persistence: SQLite under `data/` (gitignored) — workspaces, generations, runs, **memories**, **reflections**.
 - Server modules under `src/smith/**` (TanStack blocks `**/server/**` from client).
+
+## Learning loop (Track 1)
+- Cold-start invoice arch is intentionally weak (`freeform` / unstructured).
+- Harder fixtures: `inv_006`, `inv_007` (MoMo/bank noise, negative credits).
+- Post-run `reflectAndRemember` writes reflection + durable lessons.
+- Next gen: mutate hardens JSON contract; memory block injected at eval time only.
+- UI `/dashboard/forge` shows reflection, new memories, trajectory, growing memory panel.
 
 ## Routes
 `/`, marketing, `/start`, `/dashboard`, `/dashboard/forge`, `/dashboard/agents`, `/dashboard/runs`, `/brand`.
@@ -33,7 +41,7 @@ TanStack Start + Vite (Lovable), Zod, better-sqlite3, OpenAI-compatible LLM clie
 - Inference sponsor: TensorMux (50M tokens, ~30h window from announcement)
 
 ## Quality
-- `bun run unit` / `heal` / `smoke` / `build` OK against TensorMux
+- `bun run unit` / `heal` / `smoke` / `build` — re-verify after learning-loop ship
 - Lint: 0 errors (UI-kit react-refresh warnings only)
 
 ## Non-goals (V1)

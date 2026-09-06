@@ -4,6 +4,12 @@ import { defaultGroundsArchitecture, runGroundsPack } from "../evals/grounds/pac
 import { classifyFailures } from "./taxonomy";
 import { mutateArchitecture } from "./mutate";
 import {
+  formatMemoryBlock,
+  listMemories,
+  listReflections,
+} from "./memory";
+import { reflectAndRemember } from "./reflect";
+import {
   AgentArchitectureSchema,
   type AgentArchitecture,
   type FailClass,
@@ -44,6 +50,13 @@ export type RunRecord = {
   traces: Trace[];
   createdAt: string;
 };
+
+/** Strip injected memory block so mutate/store stay clean. */
+function stripMemoryBlock(prompt: string): string {
+  return prompt
+    .replace(/\n\nLearned memory \(apply on this run\):[\s\S]*$/m, "")
+    .trim();
+}
 
 function baselineArchitecture(packId: PackId, goal: string, tools: string): AgentArchitecture {
   const base = packId === "invoices" ? defaultInvoiceArchitecture() : defaultGroundsArchitecture();
@@ -216,8 +229,13 @@ export async function forgeOnce(workspaceId: string): Promise<{
     parentId = latestGen.id;
     generationNum = latestGen.generation + 1;
     const latestRun = priorRuns.find((r) => r.generationId === latestGen.id) ?? priorRuns[0];
+    // Mutate the clean parent architecture (memory is injected at eval time only).
+    const parentClean: AgentArchitecture = {
+      ...latestGen.architecture,
+      systemPrompt: stripMemoryBlock(latestGen.architecture.systemPrompt),
+    };
     architecture = await mutateArchitecture(
-      latestGen.architecture,
+      parentClean,
       latestRun?.taxonomy ?? [],
       latestRun?.metrics ?? {
         accuracy: 0,
@@ -229,6 +247,18 @@ export async function forgeOnce(workspaceId: string): Promise<{
       },
     );
   }
+
+  // Track-1: inject growing cross-run memory at eval time (do not bake into stored arch forever).
+  const priorMemories = listMemories(workspaceId);
+  const memoryBlock = formatMemoryBlock(priorMemories);
+  const evalArchitecture: AgentArchitecture = memoryBlock
+    ? {
+        ...architecture,
+        memoryPolicy: "cross_run_durable_memory",
+        systemPrompt: `${stripMemoryBlock(architecture.systemPrompt)}\n\n${memoryBlock}`,
+        notes: `${architecture.notes}|memories:${priorMemories.length}`,
+      }
+    : architecture;
 
   const generation: GenerationRecord = {
     id: newId("gen"),
@@ -254,7 +284,7 @@ export async function forgeOnce(workspaceId: string): Promise<{
       generation.createdAt,
     );
 
-  const { metrics, traces } = await executePack(architecture);
+  const { metrics, traces } = await executePack(evalArchitecture);
   const taxonomy = classifyFailures(traces);
   const run: RunRecord = {
     id: newId("run"),
@@ -282,6 +312,30 @@ export async function forgeOnce(workspaceId: string): Promise<{
       run.createdAt,
     );
 
+  const learning = await reflectAndRemember({
+    workspaceId,
+    runId: run.id,
+    generation: generationNum,
+    packId: workspace.packId,
+    goal: workspace.goal,
+    metrics,
+    taxonomy,
+    traces,
+    priorMemoryCount: priorMemories.length,
+  });
+
+  const trajectory = listRuns(workspaceId)
+    .slice()
+    .reverse()
+    .map((r, idx) => ({
+      generation: listGenerations(workspaceId).find((g) => g.id === r.generationId)
+        ?.generation ?? idx + 1,
+      accuracy: r.metrics.accuracy,
+      costUsd: r.metrics.costUsd,
+      latencyMs: r.metrics.latencyMs,
+    }));
+
+  const allMemories = listMemories(workspaceId);
   const report: ReportCard = {
     before: beforeMetrics,
     after: metrics,
@@ -293,6 +347,15 @@ export async function forgeOnce(workspaceId: string): Promise<{
     },
     taxonomy,
     generation: generationNum,
+    reflection: learning.reflection.reflection,
+    memoriesAdded: learning.memoriesAdded.map((m) => ({
+      id: m.id,
+      kind: m.kind,
+      content: m.content,
+      generation: m.generation,
+    })),
+    memoryCount: allMemories.length,
+    trajectory,
   };
 
   return { generation, run, report };
@@ -303,10 +366,20 @@ export function dashboardSummary() {
   const generations = listGenerations();
   const runs = listRuns();
   const latest = runs[0];
+  const memoryCount = workspaces.reduce(
+    (n, w) => n + listMemories(w.id).length,
+    0,
+  );
+  const reflectionCount = workspaces.reduce(
+    (n, w) => n + listReflections(w.id).length,
+    0,
+  );
   return {
     workspaceCount: workspaces.length,
     generationCount: generations.length,
     runCount: runs.length,
+    memoryCount,
+    reflectionCount,
     latestMetrics: latest?.metrics ?? null,
     latestTaxonomy: latest?.taxonomy ?? [],
     workspaces,

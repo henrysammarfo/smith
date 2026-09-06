@@ -1,6 +1,6 @@
 # FACT_CHECK — live-verified claims (Syndicate by Maximor / SMITH)
 
-Last updated: 2026-09-05 (Cloud Agent session). Sources: Luma schema.org Event JSON, TinyFish `/v1/fetch` + `/v1/search`, Tavily search, AO GitHub releases, official brief paste.
+Last updated: 2026-09-06 (Cloud Agent session). Sources: Luma schema.org Event JSON, TinyFish `/v1/fetch` + `/v1/search`, Tavily search, AO GitHub releases, official brief paste, Discord Track tip from @Hacker.
 
 ## Verified
 
@@ -10,6 +10,7 @@ Last updated: 2026-09-05 (Cloud Agent session). Sources: Luma schema.org Event J
 | Window = 2026-09-05 21:30 IST → 2026-09-07 03:30 IST (= 2026-09-05 12:00 EDT → 2026-09-06 18:00 EDT) | VERIFIED | Official brief + Luma start/end |
 | Pool = $10,000 ($3k Maximor cash + $3k Dodo + $4k AI Grants India) | VERIFIED | Luma description + official brief |
 | Track 1 name = Automated Agent Engineering | VERIFIED | Official brief / Luma tracks |
+| Track 1 judging emphasis = learning loops (reflection, memory growth, tool context over time, cost/speed); domain secondary; skip auth unless core | VERIFIED | Discord tip from @Hacker (2026-09-06) |
 | Track 1 1st = $1k cash + $1k Dodo; 2nd = $500+$500; 20×$100 credits | VERIFIED | Official brief + Luma |
 | AO mandatory; demo must show AO sessions used | VERIFIED | Official brief + Luma |
 | Official submit = Devpost only | VERIFIED | Official brief (`syndicate-by-maximor.devpost.com`) |

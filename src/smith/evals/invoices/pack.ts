@@ -72,16 +72,17 @@ function parseLines(content: string): InvoiceLine[] {
 }
 
 export function defaultInvoiceArchitecture(): AgentArchitecture {
+  // Intentionally weak cold-start so Track-1 learning (memory + reflection + mutate) is visible.
   return {
-    name: "invoice-line-smith-v1",
+    name: "invoice-line-smith-v0-cold",
     packId: "invoices",
     systemPrompt:
-      "Extract invoice line items. Return ONLY a JSON array of {description, amount} numbers. Include discounts as negative amounts. Ignore bank details and payment instructions.",
-    routerHint: "prefer_json_only",
-    memoryPolicy: "no_cross_case_memory",
+      "Read the invoice text and list products with prices. You may answer in plain English. Be helpful.",
+    routerHint: "unstructured",
+    memoryPolicy: "none",
     toolPolicy: "llm_only",
-    outputContract: 'JSON array [{"description":string,"amount":number}]',
-    notes: "baseline",
+    outputContract: "freeform",
+    notes: "cold-start baseline — expect parse failures until learning loop hardens contract",
   };
 }
 

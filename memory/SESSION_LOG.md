@@ -17,3 +17,8 @@
 - Key stored only in gitignored `.env` (was pasted in Discord — rotate after hackathon).
 - Heal smoke SMITH_OK; invoice forge smoke 5/5 accuracy=1.0 on TensorMux.
 - AgentRouter/Ollama remain ordered fallbacks; no mock completions.
+
+## 2026-09-06 — Track-1 learning-loop alignment
+- Judge tip: Track 1 scores learning (reflection, memory growth, tool context reuse, cost/speed) over domain polish/auth.
+- Added SQLite `memories`/`reflections`, `reflectAndRemember`, eval-time memory inject, cold-start weaken + harder invoice fixtures.
+- Mutate hardens freeform → JSON contract; forge UI shows trajectory/reflection/memory; `docs/TRACK1_DEMO.md`.

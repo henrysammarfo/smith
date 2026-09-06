@@ -6,12 +6,35 @@ import {
   type Metrics,
 } from "./types";
 
+const INVOICE_JSON_CONTRACT =
+  'Return ONLY a JSON array of objects {"description":string,"amount":number}. No markdown, no prose. Discounts/credits are negative amounts. Never include bank, MoMo, remittance, PO, or payment rows.';
+
+function hardenColdStart(arch: AgentArchitecture): AgentArchitecture {
+  if (arch.packId !== "invoices") return arch;
+  if (arch.outputContract !== "freeform" && arch.routerHint !== "unstructured") {
+    return arch;
+  }
+  return {
+    ...arch,
+    name: `${arch.name}->json_contract`,
+    routerHint: "extract_lines_before_totals",
+    memoryPolicy: "cross_run_durable_memory",
+    toolPolicy: "llm_only_with_amount_normalization",
+    outputContract: INVOICE_JSON_CONTRACT,
+    systemPrompt:
+      "You extract invoice line items from messy vendor text. " +
+      INVOICE_JSON_CONTRACT +
+      " Ignore payment instructions. Normalize currency symbols away from amounts.",
+    notes: `${arch.notes}|hardened_from_cold_start`,
+  };
+}
+
 function applyHeuristicMutate(arch: AgentArchitecture, taxonomy: FailClass[]): AgentArchitecture {
   const top = taxonomy[0];
-  const next: AgentArchitecture = {
+  let next: AgentArchitecture = hardenColdStart({
     ...arch,
     notes: `mutated:${top?.id ?? "none"}`,
-  };
+  });
   if (!top) {
     next.systemPrompt +=
       "\nBe stricter: follow the output contract exactly. Double-check amounts and verdicts.";
@@ -27,8 +50,9 @@ function applyHeuristicMutate(arch: AgentArchitecture, taxonomy: FailClass[]): A
         "\nIf evidence is thin, say ungrounded rather than guessing. Normalize currency symbols away from amounts.";
       break;
     case "memory":
-      next.memoryPolicy = "short_scratchpad_within_case";
-      next.systemPrompt += "\nUse a brief scratchpad of candidate lines before final JSON.";
+      next.memoryPolicy = "cross_run_durable_memory";
+      next.systemPrompt +=
+        "\nApply learned memory: skip payment rows; treat discounts as negative amounts; emit JSON only.";
       break;
     case "router":
       next.routerHint =
@@ -40,11 +64,14 @@ function applyHeuristicMutate(arch: AgentArchitecture, taxonomy: FailClass[]): A
       break;
     case "prompt":
     default:
+      if (arch.packId === "invoices") {
+        next.outputContract = INVOICE_JSON_CONTRACT;
+      }
       next.systemPrompt +=
         "\nReturn ONLY valid JSON matching the contract. No markdown fences. Include negative discounts as negative amounts. For verdicts use exactly grounded or ungrounded.";
       break;
   }
-  next.name = `${arch.name}->${top.suggestedPatch}`;
+  next.name = `${next.name}->${top.suggestedPatch}`;
   return next;
 }
 
