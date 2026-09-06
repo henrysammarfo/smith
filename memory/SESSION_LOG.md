@@ -61,3 +61,9 @@
 - Production forge failed: `ENOENT ... /var/task/src/smith/evals/invoices/fixtures` (JSON not in serverless output).
 - Fix: `import.meta.glob` eager bundle of invoice/grounds fixtures + Nitro `serverAssets` for `src/smith/evals`.
 - Re-recording Gen1→Gen2 cursor/zoom demo after redeploy.
+
+## 2026-09-06 — Cursor Gen1→Gen2 demo recorded
+- Local headed Chrome demo with visible cursor + zoom: Gen1 **0.0%** → Gen2 **100.0%**, memories 4→7.
+- Artifact: `/opt/cursor/artifacts/smith-cursor-forge-gen1-gen2.mp4`
+- Vercel production auth flaky (SQLite sessions on serverless); fixtures bundled for forge ENOENT fix.
+- Vercel envs refreshed with provided token (expires ~1h) — rotate after use.
