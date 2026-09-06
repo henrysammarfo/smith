@@ -34,8 +34,13 @@ TanStack Start + Vite (Lovable), Zod, better-sqlite3, OpenAI-compatible LLM clie
 
 ## AO
 - Judging: operator desktop AO sessions (mandatory for demo video).
-- **Next step after AO install:** install one coding-agent CLI on PATH (Claude Code / Codex / opencode / Copilot) — see `docs/AO_DESKTOP_SETUP.md` §3a + screenshot `docs/research/ao-coding-agent-gate.png`.
+- Operator PC may not have SMITH cloned yet — clone from public GitHub after merge: `https://github.com/henrysammarfo/smith`.
+- Coding CLI on PATH: prefer **OpenCode + TensorMux** (`docs/OPENCODE_AO_SETUP.md`) when AgentRouter quota is exhausted; else Claude Code (`docs/CLAUDE_CODE_AGENTROUTER.md`).
 - Cloud AppImage attempt: no countable session; `sessionsFabricated=false`.
+
+## Repo hygiene
+- `.env` / `.env.local` gitignored; only `.env.example` tracked.
+- Docs/READMEs use placeholders; secret scan clean before public visibility.
 
 ## Contest locks
 - Track: Automated Agent Engineering

@@ -35,19 +35,18 @@ Last updated: 2026-09-06 (Cloud Agent session). Sources: Luma schema.org Event J
 | ~48h handwave | Use exact IST/EDT window above |
 | Pass aoagents.dev path variants | Prefer brief: `https://aoagents.dev/hackathons/syndicate/pass/` |
 
+| TensorMux OpenAI-compat `api.tensormux.com/v1` + model `glm-4-7-flash` live with hackathon key | VERIFIED | Live `/models` + chat `SMITH_OK`; invoice pack 5/5 |
+| Track-1 learning loop: Gen1 cold-start accuracy 0.0 → Gen2 1.0 with growing memory + reflections | VERIFIED | `bun run smoke` 2026-09-06 (7 invoice cases incl. inv_006/007) |
+| Anthropic evals/tools + Maximor + Managed Agents research ingested via Tavily Search + TinyFish Search/Fetch | VERIFIED | `bun run research` 2026-09-06 → `docs/research/ingest_bundle.json` + LESSONS.md |
+| Multi-trial metrics passAtK/passCaretK + suiteKind capability→regression on learning smoke | VERIFIED | `bun run smoke` Gen1 passAtK=0 suiteKind=capability → Gen2 passAtK=1 suiteKind=regression |
+| AO desktop next gate after install = coding-agent CLI on PATH (Claude Code / Codex / opencode / Copilot) | VERIFIED | Operator screenshot `docs/research/ao-coding-agent-gate.png` + AO setup UI copy |
+| Tracked tree has no live sk-/tvly- tokens; `.env` gitignored; docs use `YOUR_*` placeholders | VERIFIED | Pre-public secret scan 2026-09-06 |
+
 ## Residual risk (honest)
 
 - Secrets pasted in chat history should be rotated after the event.
 - WAF may change; heal script must re-probe.
 - Local Ollama is live inference, not a score mock — still not a substitute for sponsor AgentRouter once a valid key exists.
 - Never claim unhackable / nation-state-proof.
-| TensorMux OpenAI-compat `api.tensormux.com/v1` + model `glm-4-7-flash` live with hackathon key | VERIFIED | Live `/models` + chat `SMITH_OK`; invoice pack 5/5 |
-| Track-1 learning loop: Gen1 cold-start accuracy 0.0 → Gen2 1.0 with growing memory + reflections | VERIFIED | `bun run smoke` 2026-09-06 (7 invoice cases incl. inv_006/007) |
-| Anthropic evals/tools + Maximor + Managed Agents research ingested via Tavily Search + TinyFish Search/Fetch | VERIFIED | `bun run research` 2026-09-06 → `docs/research/ingest_bundle.json` + LESSONS.md |
-| Multi-trial metrics passAtK/passCaretK + suiteKind capability→regression on learning smoke | VERIFIED | `bun run smoke` Gen1 passAtK=0 suiteKind=capability → Gen2 passAtK=1 suiteKind=regression |
-| AO desktop next gate after install = coding-agent CLI on PATH (Claude Code / Codex / opencode / Copilot) | VERIFIED | Operator screenshot `docs/research/ao-coding-agent-gate.png` + AO setup UI copy |
 | TensorMux key pasted in public chat should be rotated after the event | NOTE | Opsec |
-| Anthropic evals/tools + Maximor + Managed Agents research ingested via Tavily Search + TinyFish Search/Fetch | VERIFIED | `bun run research` 2026-09-06 → `docs/research/ingest_bundle.json` + LESSONS.md |
-| Multi-trial metrics passAtK/passCaretK + suiteKind capability→regression on learning smoke | VERIFIED | `bun run smoke` Gen1 passAtK=0 suiteKind=capability → Gen2 passAtK=1 suiteKind=regression |
-| AO desktop next gate after install = coding-agent CLI on PATH (Claude Code / Codex / opencode / Copilot) | VERIFIED | Operator screenshot `docs/research/ao-coding-agent-gate.png` + AO setup UI copy |
 

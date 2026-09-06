@@ -106,7 +106,9 @@ If Claude Code asks to use the API key from environment variables on first launc
 | `ANTHROPIC_BASE_URL` | `https://agentrouter.org` (**no** `/v1`) |
 | `ANTHROPIC_MODEL` | e.g. `claude-opus-4-6` (see AgentRouter model list) |
 
-Other AO-accepted CLIs (only if you prefer them): Codex / opencode / Copilot CLI — still need to be on PATH.
+**If AgentRouter quota is exhausted (402):** use **OpenCode + TensorMux** instead — see `docs/OPENCODE_AO_SETUP.md`. AO only needs one CLI on PATH (`opencode` is enough).
+
+Other AO-accepted CLIs: Codex / Copilot CLI — still need to be on PATH.
 
 Tips:
 - Install the CLI in the **same user environment** that launches AO (GUI apps on macOS often do not see Homebrew npm PATH — use a login-shell PATH or symlink into `/usr/local/bin`).

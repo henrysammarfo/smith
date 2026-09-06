@@ -30,8 +30,7 @@
 - Documented AO next step: install Claude Code/Codex/opencode/Copilot CLI on PATH (`docs/AO_DESKTOP_SETUP.md` §3a).
 - Re-smoke: Gen1 0→Gen2 1, passAtK 0→1, suiteKind capability→regression, memories 4→8.
 
-## 2026-09-06 — Research ingest + eval/tool breakthroughs + AO coding-agent gate
-- Fetched Anthropic evals/tools posts, Claude Managed Agents, Maximor; Tavily+TinyFish live crawl → `docs/research/`.
-- Wired Anthropic-style `passAtK`/`passCaretK`/`suiteKind`, tool catalog (namespaced + truncated), `bun run research`.
-- Documented AO next step: install Claude Code/Codex/opencode/Copilot CLI on PATH (`docs/AO_DESKTOP_SETUP.md` §3a).
-- Re-smoke: Gen1 0→Gen2 1, passAtK 0→1, suiteKind capability→regression, memories 4→8.
+## 2026-09-06 — Public-ready: scrub, merge main, visibility
+- Confirmed no live API keys in tracked MDs/JSON; `.env` gitignored; docs use `YOUR_*` placeholders.
+- README: Windows clone + secrets doctrine + OpenCode/TensorMux AO path.
+- Merge Track-1 branch → `main`; set GitHub repo visibility public for operator clone + Devpost.
