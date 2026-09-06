@@ -55,28 +55,27 @@ If you see **“No coding agent found” / “No agent CLI (Claude Code, Codex, 
 
 #### Recommended: Claude Code ↔ AgentRouter (Anthropic-compatible)
 
-Official AgentRouter docs: https://agentrouter.org/docs/index.html  
-Claude Code package: https://www.npmjs.com/package/@anthropic-ai/claude-code  
-Claude Code docs: https://docs.anthropic.com/en/docs/claude-code
+Full write-up: `docs/CLAUDE_CODE_AGENTROUTER.md`  
+AgentRouter guide: https://agentrouter.org/docs/index.html  
+Claude Code install: https://code.claude.com/docs/en/install  
+npm package: https://www.npmjs.com/package/@anthropic-ai/claude-code
 
 **Important:** Claude Code uses **Anthropic-compatible** config. Base URL is `https://agentrouter.org` with **no** `/v1`.  
 Do **not** mix that with the OpenAI-compatible URL `https://agentrouter.org/v1` (that style is for other OpenAI-SDK clients / SMITH forge fallbacks).
 
 ```bash
-# 1) Node 18+
-node --version
+# Install Claude Code (native recommended)
+curl -fsSL https://claude.ai/install.sh | bash
+# or: npm install -g @anthropic-ai/claude-code@latest
 
-# 2) Install Claude Code CLI
-npm install -g @anthropic-ai/claude-code@latest
-
-# 3) Verify
+# Verify
 claude --version
 which claude
 
-# 4) AgentRouter env (macOS / Linux) — put YOUR key, not a pasted chat key
+# AgentRouter env (macOS / Linux) — YOUR key from agentrouter.org
 export ANTHROPIC_AUTH_TOKEN="YOUR_AGENTROUTER_API_KEY"
 export ANTHROPIC_BASE_URL="https://agentrouter.org"
-export ANTHROPIC_MODEL="claude-opus-4-5"   # or another model AgentRouter lists
+export ANTHROPIC_MODEL="claude-opus-4-6"   # or claude-sonnet-4-5 / whatever AgentRouter lists
 
 # Make permanent (zsh):
 # echo 'export ANTHROPIC_AUTH_TOKEN=...' >> ~/.zshrc
@@ -105,7 +104,7 @@ If Claude Code asks to use the API key from environment variables on first launc
 |---|---|
 | `ANTHROPIC_AUTH_TOKEN` | Your AgentRouter API key (sent as Bearer) |
 | `ANTHROPIC_BASE_URL` | `https://agentrouter.org` (**no** `/v1`) |
-| `ANTHROPIC_MODEL` | e.g. `claude-opus-4-5` (see AgentRouter model list) |
+| `ANTHROPIC_MODEL` | e.g. `claude-opus-4-6` (see AgentRouter model list) |
 
 Other AO-accepted CLIs (only if you prefer them): Codex / opencode / Copilot CLI — still need to be on PATH.
 
