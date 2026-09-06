@@ -44,9 +44,8 @@ Last updated: 2026-09-06 (Cloud Agent session). Sources: Luma schema.org Event J
 
 ## Residual risk (honest)
 
-- Secrets pasted in chat history should be rotated after the event.
+- Secrets pasted in chat history / Discord should be rotated after the event.
 - WAF may change; heal script must re-probe.
 - Local Ollama is live inference, not a score mock — still not a substitute for sponsor AgentRouter once a valid key exists.
 - Never claim unhackable / nation-state-proof.
-| TensorMux key pasted in public chat should be rotated after the event | NOTE | Opsec |
 
