@@ -3,6 +3,7 @@ import { join } from "node:path";
 import { smithChat } from "../../llm/client";
 import { aggregateTrialMetrics, evalTrialCount } from "../../forge/trials";
 import type { AgentArchitecture, Metrics, Trace } from "../../forge/types";
+import { INVOICE_CASES } from "./fixture-data";
 
 export type InvoiceLine = { description: string; amount: number };
 export type InvoiceCase = {
@@ -17,6 +18,7 @@ function fixturesDir() {
 }
 
 export function loadInvoiceCases(): InvoiceCase[] {
+  if (INVOICE_CASES.length > 0) return INVOICE_CASES as InvoiceCase[];
   return readdirSync(fixturesDir())
     .filter((f) => f.endsWith(".json"))
     .sort()

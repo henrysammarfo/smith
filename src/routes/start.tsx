@@ -36,8 +36,11 @@ function StartPage() {
               : ["tinyfish_fetch", "tavily_search", "claim_score"],
         },
       }),
-    onSuccess: () => {
-      void navigate({ to: "/dashboard/forge" });
+    onSuccess: (ws) => {
+      void navigate({
+        to: "/dashboard/forge",
+        search: { workspaceId: ws.id },
+      });
     },
     onError: (e: Error) => setError(e.message),
   });

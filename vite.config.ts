@@ -10,7 +10,20 @@ const isVercel = Boolean(process.env["VERCEL"]);
 
 export default defineConfig({
   // On Vercel, Nitro auto-picks the vercel preset; pin when VERCEL=1 for local prod builds.
-  ...(isVercel ? { nitro: { preset: "vercel" } } : {}),
+  // Also keep eval fixtures as server assets in case any path still reads from disk.
+  ...(isVercel
+    ? {
+        nitro: {
+          preset: "vercel",
+          serverAssets: [
+            {
+              baseName: "smith-evals",
+              dir: "./src/smith/evals",
+            },
+          ],
+        },
+      }
+    : {}),
   tanstackStart: {
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
     // nitro/vite builds from this

@@ -6,6 +6,7 @@ import { tavilySearch } from "../../tools/tavily";
 import { toolPromptBlock } from "../../tools/catalog";
 import { aggregateTrialMetrics, evalTrialCount } from "../../forge/trials";
 import type { AgentArchitecture, Metrics, Trace } from "../../forge/types";
+import { GROUNDS_CASES } from "./fixture-data";
 
 export type GroundsCase = {
   id: string;
@@ -19,6 +20,7 @@ function fixturesDir() {
 }
 
 export function loadGroundsCases(): GroundsCase[] {
+  if (GROUNDS_CASES.length > 0) return GROUNDS_CASES as GroundsCase[];
   return readdirSync(fixturesDir())
     .filter((f) => f.endsWith(".json"))
     .sort()
