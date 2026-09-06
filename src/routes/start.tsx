@@ -1,11 +1,19 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useMutation } from "@tanstack/react-query";
 import { useState, type FormEvent } from "react";
 import { PageShell } from "@/components/smith/PageShell";
+import { meFn } from "@/smith/auth/api";
 import { createWorkspaceFn } from "@/smith/forge/api";
 
 export const Route = createFileRoute("/start")({
+  beforeLoad: async () => {
+    const user = await meFn();
+    if (!user) {
+      throw redirect({ to: "/login", search: { redirect: "/start" } });
+    }
+    return { user };
+  },
   component: StartPage,
 });
 
@@ -76,12 +84,16 @@ function StartPage() {
             Eval pack
           </label>
           <select
-            className="mt-2 w-full rounded-xl border border-white/10 bg-ink/80 px-4 py-3 text-cream"
+            className="mt-2 w-full rounded-xl border border-white/10 bg-ink px-4 py-3 text-cream [color-scheme:dark]"
             value={packId}
             onChange={(e) => setPackId(e.target.value as "invoices" | "grounds")}
           >
-            <option value="invoices">Messy invoices</option>
-            <option value="grounds">GROUNDS-lite claim check</option>
+            <option value="invoices" className="bg-ink text-cream">
+              Messy invoices
+            </option>
+            <option value="grounds" className="bg-ink text-cream">
+              GROUNDS-lite claim check
+            </option>
           </select>
         </div>
         <button type="submit" className="btn-primary" disabled={mut.isPending}>

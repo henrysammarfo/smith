@@ -12,6 +12,21 @@ export function getDb(): Database.Database {
   const db = new Database(path);
   db.pragma("journal_mode = WAL");
   db.exec(`
+    CREATE TABLE IF NOT EXISTS users (
+      id TEXT PRIMARY KEY,
+      email TEXT NOT NULL UNIQUE,
+      name TEXT NOT NULL,
+      password_hash TEXT NOT NULL,
+      created_at TEXT NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS sessions (
+      id TEXT PRIMARY KEY,
+      user_id TEXT NOT NULL,
+      token_hash TEXT NOT NULL UNIQUE,
+      expires_at TEXT NOT NULL,
+      created_at TEXT NOT NULL,
+      FOREIGN KEY(user_id) REFERENCES users(id)
+    );
     CREATE TABLE IF NOT EXISTS workspaces (
       id TEXT PRIMARY KEY,
       name TEXT NOT NULL,
@@ -20,7 +35,8 @@ export function getDb(): Database.Database {
       tools TEXT NOT NULL,
       eval_notes TEXT NOT NULL,
       pack_id TEXT NOT NULL,
-      created_at TEXT NOT NULL
+      created_at TEXT NOT NULL,
+      owner_id TEXT
     );
     CREATE TABLE IF NOT EXISTS generations (
       id TEXT PRIMARY KEY,
@@ -62,6 +78,14 @@ export function getDb(): Database.Database {
       created_at TEXT NOT NULL
     );
   `);
+
+  // Legacy DBs created before owner_id — add column safely.
+  try {
+    db.exec(`ALTER TABLE workspaces ADD COLUMN owner_id TEXT`);
+  } catch {
+    // Column already exists
+  }
+
   dbSingleton = db;
   return db;
 }

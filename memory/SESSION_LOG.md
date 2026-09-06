@@ -44,3 +44,10 @@
 - Added simple README/FOR_JUDGES/ARCHITECTURE; mermaid→png + `.excalidraw` scenes.
 - Script `scripts/mermaid-to-excalidraw.mjs` uses Excalidraw libs in headless Chrome.
 - Preparing Vercel git project deploy for henrysammarfo/smith.
+
+## 2026-09-06 — Prod polish: auth, hero video, brand, Vercel env request
+- Session auth + owner-scoped workspaces (multitenant).
+- Hero background video (CloudFront) at full opacity; no Lovable meta/OG.
+- Favicon/OG = SMITH mark; /start select dark-theme fix.
+- Requested VERCEL_TOKEN / dashboard env so live forge can call LLM.
+- AO next: message agent on smith project with smoke + forge tasks (`docs/AO_NEXT.md`).

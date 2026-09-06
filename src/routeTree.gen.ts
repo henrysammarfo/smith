@@ -12,10 +12,13 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BenefitsRouteImport } from './routes/benefits'
 import { Route as BrandRouteImport } from './routes/brand'
+import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as DemoRouteImport } from './routes/demo'
 import { Route as FaqsRouteImport } from './routes/faqs'
 import { Route as HowItWorksRouteImport } from './routes/how-it-works'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as PricingRouteImport } from './routes/pricing'
+import { Route as RegisterRouteImport } from './routes/register'
 import { Route as StartRouteImport } from './routes/start'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 import { Route as DashboardAgentsRouteImport } from './routes/dashboard/agents'
@@ -37,6 +40,11 @@ const BrandRoute = BrandRouteImport.update({
   path: '/brand',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DemoRoute = DemoRouteImport.update({
   id: '/demo',
   path: '/demo',
@@ -52,9 +60,19 @@ const HowItWorksRoute = HowItWorksRouteImport.update({
   path: '/how-it-works',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PricingRoute = PricingRouteImport.update({
   id: '/pricing',
   path: '/pricing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RegisterRoute = RegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
   getParentRoute: () => rootRouteImport,
 } as any)
 const StartRoute = StartRouteImport.update({
@@ -63,34 +81,37 @@ const StartRoute = StartRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardIndexRoute = DashboardIndexRouteImport.update({
-  id: '/dashboard/',
-  path: '/dashboard/',
-  getParentRoute: () => rootRouteImport,
+  id: '/',
+  path: '/',
+  getParentRoute: () => DashboardRoute,
 } as any)
 const DashboardAgentsRoute = DashboardAgentsRouteImport.update({
-  id: '/dashboard/agents',
-  path: '/dashboard/agents',
-  getParentRoute: () => rootRouteImport,
+  id: '/agents',
+  path: '/agents',
+  getParentRoute: () => DashboardRoute,
 } as any)
 const DashboardForgeRoute = DashboardForgeRouteImport.update({
-  id: '/dashboard/forge',
-  path: '/dashboard/forge',
-  getParentRoute: () => rootRouteImport,
+  id: '/forge',
+  path: '/forge',
+  getParentRoute: () => DashboardRoute,
 } as any)
 const DashboardRunsRoute = DashboardRunsRouteImport.update({
-  id: '/dashboard/runs',
-  path: '/dashboard/runs',
-  getParentRoute: () => rootRouteImport,
+  id: '/runs',
+  path: '/runs',
+  getParentRoute: () => DashboardRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/benefits': typeof BenefitsRoute
   '/brand': typeof BrandRoute
+  '/dashboard': typeof DashboardRouteWithChildren
   '/demo': typeof DemoRoute
   '/faqs': typeof FaqsRoute
   '/how-it-works': typeof HowItWorksRoute
+  '/login': typeof LoginRoute
   '/pricing': typeof PricingRoute
+  '/register': typeof RegisterRoute
   '/start': typeof StartRoute
   '/dashboard/agents': typeof DashboardAgentsRoute
   '/dashboard/forge': typeof DashboardForgeRoute
@@ -104,7 +125,9 @@ export interface FileRoutesByTo {
   '/demo': typeof DemoRoute
   '/faqs': typeof FaqsRoute
   '/how-it-works': typeof HowItWorksRoute
+  '/login': typeof LoginRoute
   '/pricing': typeof PricingRoute
+  '/register': typeof RegisterRoute
   '/start': typeof StartRoute
   '/dashboard/agents': typeof DashboardAgentsRoute
   '/dashboard/forge': typeof DashboardForgeRoute
@@ -116,10 +139,13 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/benefits': typeof BenefitsRoute
   '/brand': typeof BrandRoute
+  '/dashboard': typeof DashboardRouteWithChildren
   '/demo': typeof DemoRoute
   '/faqs': typeof FaqsRoute
   '/how-it-works': typeof HowItWorksRoute
+  '/login': typeof LoginRoute
   '/pricing': typeof PricingRoute
+  '/register': typeof RegisterRoute
   '/start': typeof StartRoute
   '/dashboard/agents': typeof DashboardAgentsRoute
   '/dashboard/forge': typeof DashboardForgeRoute
@@ -132,10 +158,13 @@ export interface FileRouteTypes {
     | '/'
     | '/benefits'
     | '/brand'
+    | '/dashboard'
     | '/demo'
     | '/faqs'
     | '/how-it-works'
+    | '/login'
     | '/pricing'
+    | '/register'
     | '/start'
     | '/dashboard/agents'
     | '/dashboard/forge'
@@ -149,7 +178,9 @@ export interface FileRouteTypes {
     | '/demo'
     | '/faqs'
     | '/how-it-works'
+    | '/login'
     | '/pricing'
+    | '/register'
     | '/start'
     | '/dashboard/agents'
     | '/dashboard/forge'
@@ -160,10 +191,13 @@ export interface FileRouteTypes {
     | '/'
     | '/benefits'
     | '/brand'
+    | '/dashboard'
     | '/demo'
     | '/faqs'
     | '/how-it-works'
+    | '/login'
     | '/pricing'
+    | '/register'
     | '/start'
     | '/dashboard/agents'
     | '/dashboard/forge'
@@ -175,15 +209,14 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BenefitsRoute: typeof BenefitsRoute
   BrandRoute: typeof BrandRoute
+  DashboardRoute: typeof DashboardRouteWithChildren
   DemoRoute: typeof DemoRoute
   FaqsRoute: typeof FaqsRoute
   HowItWorksRoute: typeof HowItWorksRoute
+  LoginRoute: typeof LoginRoute
   PricingRoute: typeof PricingRoute
+  RegisterRoute: typeof RegisterRoute
   StartRoute: typeof StartRoute
-  DashboardAgentsRoute: typeof DashboardAgentsRoute
-  DashboardForgeRoute: typeof DashboardForgeRoute
-  DashboardRunsRoute: typeof DashboardRunsRoute
-  DashboardIndexRoute: typeof DashboardIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -209,6 +242,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BrandRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/demo': {
       id: '/demo'
       path: '/demo'
@@ -230,11 +270,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HowItWorksRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/pricing': {
       id: '/pricing'
       path: '/pricing'
       fullPath: '/pricing'
       preLoaderRoute: typeof PricingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/register': {
+      id: '/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof RegisterRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/start': {
@@ -246,48 +300,65 @@ declare module '@tanstack/react-router' {
     }
     '/dashboard/': {
       id: '/dashboard/'
-      path: '/dashboard'
+      path: '/'
       fullPath: '/dashboard/'
       preLoaderRoute: typeof DashboardIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof DashboardRoute
     }
     '/dashboard/agents': {
       id: '/dashboard/agents'
-      path: '/dashboard/agents'
+      path: '/agents'
       fullPath: '/dashboard/agents'
       preLoaderRoute: typeof DashboardAgentsRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof DashboardRoute
     }
     '/dashboard/forge': {
       id: '/dashboard/forge'
-      path: '/dashboard/forge'
+      path: '/forge'
       fullPath: '/dashboard/forge'
       preLoaderRoute: typeof DashboardForgeRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof DashboardRoute
     }
     '/dashboard/runs': {
       id: '/dashboard/runs'
-      path: '/dashboard/runs'
+      path: '/runs'
       fullPath: '/dashboard/runs'
       preLoaderRoute: typeof DashboardRunsRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof DashboardRoute
     }
   }
 }
+
+interface DashboardRouteChildren {
+  DashboardAgentsRoute: typeof DashboardAgentsRoute
+  DashboardForgeRoute: typeof DashboardForgeRoute
+  DashboardRunsRoute: typeof DashboardRunsRoute
+  DashboardIndexRoute: typeof DashboardIndexRoute
+}
+
+const DashboardRouteChildren: DashboardRouteChildren = {
+  DashboardAgentsRoute: DashboardAgentsRoute,
+  DashboardForgeRoute: DashboardForgeRoute,
+  DashboardRunsRoute: DashboardRunsRoute,
+  DashboardIndexRoute: DashboardIndexRoute,
+}
+
+const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
+  DashboardRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BenefitsRoute: BenefitsRoute,
   BrandRoute: BrandRoute,
+  DashboardRoute: DashboardRouteWithChildren,
   DemoRoute: DemoRoute,
   FaqsRoute: FaqsRoute,
   HowItWorksRoute: HowItWorksRoute,
+  LoginRoute: LoginRoute,
   PricingRoute: PricingRoute,
+  RegisterRoute: RegisterRoute,
   StartRoute: StartRoute,
-  DashboardAgentsRoute: DashboardAgentsRoute,
-  DashboardForgeRoute: DashboardForgeRoute,
-  DashboardRunsRoute: DashboardRunsRoute,
-  DashboardIndexRoute: DashboardIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

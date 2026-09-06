@@ -27,8 +27,24 @@ export const Route = createFileRoute("/")({
 function Home() {
   return (
     <div className="relative">
+      {/* Hero film plate — full opacity, no dim overlay (Vesper-style background plate) */}
+      <div className="hero-video-plate pointer-events-none fixed inset-0 z-0 overflow-hidden" aria-hidden>
+        <video
+          className="h-full w-full object-cover opacity-100"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          poster=""
+        >
+          <source
+            src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260818_072341_50851634-bbc3-4c33-9acc-7647d4db44aa.mp4"
+            type="video/mp4"
+          />
+        </video>
+      </div>
       <div className="grain" />
-      <div className="forge-glow pointer-events-none fixed inset-0" />
       <div className="relative z-1 grid min-h-screen grid-rows-[auto_1fr_auto] lg:h-screen lg:overflow-hidden">
         <SiteHeader />
 
@@ -67,7 +83,7 @@ function Home() {
 
             <div className="mt-[26px] flex flex-wrap items-center justify-center gap-[10px] max-[560px]:w-full max-[560px]:flex-col">
               <Link
-                to="/start"
+                to="/register"
                 style={{ ["--d" as string]: "0.96s" }}
                 className="btn-shine btn-solid-metal appear appear-btn h-[42px] px-[18px] max-[560px]:w-full"
               >

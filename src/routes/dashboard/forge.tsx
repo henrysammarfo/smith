@@ -171,12 +171,16 @@ function ForgePage() {
             Eval pack
           </label>
           <select
-            className="mt-2 w-full rounded-xl border border-white/10 bg-ink px-3 py-2 text-sm text-cream"
+            className="mt-2 w-full rounded-xl border border-white/10 bg-ink px-3 py-2 text-sm text-cream [color-scheme:dark]"
             value={packId}
             onChange={(e) => setPackId(e.target.value as "invoices" | "grounds")}
           >
-            <option value="invoices">Messy invoices</option>
-            <option value="grounds">GROUNDS-lite claim check</option>
+            <option value="invoices" className="bg-ink text-cream">
+              Messy invoices
+            </option>
+            <option value="grounds" className="bg-ink text-cream">
+              GROUNDS-lite claim check
+            </option>
           </select>
           <button
             type="button"
@@ -194,13 +198,15 @@ function ForgePage() {
             Workspace
           </label>
           <select
-            className="mt-2 w-full rounded-xl border border-white/10 bg-ink px-3 py-2 text-sm text-cream"
+            className="mt-2 w-full rounded-xl border border-white/10 bg-ink px-3 py-2 text-sm text-cream [color-scheme:dark]"
             value={workspaceId}
             onChange={(e) => setWorkspaceId(e.target.value)}
           >
-            <option value="">Select…</option>
+            <option value="" className="bg-ink text-cream">
+              Select…
+            </option>
             {(workspacesQ.data ?? []).map((w) => (
-              <option key={w.id} value={w.id}>
+              <option key={w.id} value={w.id} className="bg-ink text-cream">
                 {w.packId} — {w.goal.slice(0, 48)}
               </option>
             ))}

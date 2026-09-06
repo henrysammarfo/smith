@@ -10,7 +10,7 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
-import { reportLovableError } from "../lib/lovable-error-reporting";
+import { reportRuntimeError } from "../lib/runtime-error-reporting";
 
 function NotFoundComponent() {
   return (
@@ -38,7 +38,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
   const router = useRouter();
   useEffect(() => {
-    reportLovableError(error, { boundary: "tanstack_root_error_component" });
+    reportRuntimeError(error, { boundary: "tanstack_root_error_component" });
   }, [error]);
 
   return (
@@ -77,21 +77,38 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "SMITH.forge — Agents That Forge Better Agents" },
+      {
+        name: "description",
+        content:
+          "Give SMITH a goal, tools, and an eval pack. It builds the agent, reads the failure, and forges a better one until the score moves.",
+      },
+      { name: "author", content: "SMITH.forge" },
+      { property: "og:title", content: "SMITH.forge — Agents That Forge Better Agents" },
+      {
+        property: "og:description",
+        content:
+          "The meta-agent factory: architecture, run, failure taxonomy, mutation, measurable gain.",
+      },
       { property: "og:type", content: "website" },
+      { property: "og:image", content: "/og.png" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "SMITH.forge" },
+      {
+        name: "twitter:description",
+        content: "Agents that forge better agents.",
+      },
+      { name: "twitter:image", content: "/og.png" },
+      { name: "theme-color", content: "#000000" },
     ],
     links: [
       {
         rel: "stylesheet",
         href: appCss,
       },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
+      { rel: "icon", href: "/favicon.ico", sizes: "any" },
+      { rel: "apple-touch-icon", href: "/favicon-32.png" },
     ],
   }),
   shellComponent: RootShell,
