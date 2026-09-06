@@ -9,7 +9,7 @@ Domains: (1) messy invoice line-items (2) GROUNDS-lite claim check.
 Judges ask: learning over time, visible reflection/memory growth, contextual tool lessons reused later, cost/speed balance — **not** domain polish or auth.
 
 ## Stack
-TanStack Start + Vite (Lovable), Zod, better-sqlite3, OpenAI-compatible LLM client
+TanStack Start + Vite, Zod, better-sqlite3, OpenAI-compatible LLM client
 (**TensorMux primary** → AgentRouter → Ollama), Tavily, TinyFish.
 
 ## Live wiring (verified)

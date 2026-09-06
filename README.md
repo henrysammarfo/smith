@@ -94,4 +94,4 @@ Forge on Vercel needs your API keys in the Vercel project env (same names as `.e
 
 We do **not** claim perfect security. See [docs/THREAT_MODEL.md](docs/THREAT_MODEL.md).
 
-Built with [Lovable](https://lovable.dev).
+Built for Syndicate Track 1 — Automated Agent Engineering.

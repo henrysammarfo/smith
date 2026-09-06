@@ -50,3 +50,6 @@ Last updated: 2026-09-06 (Cloud Agent session). Sources: Luma schema.org Event J
 - Never claim unhackable / nation-state-proof.
 | Mermaid→Excalidraw diagrams for learning loop + Gen1→Gen2 | VERIFIED | `bun scripts/mermaid-to-excalidraw.mjs` wrote `docs/diagrams/*.excalidraw` |
 | SQLite on Vercel uses `/tmp/smith.db` | VERIFIED | `src/smith/env.ts` defaultDbPath |
+| Hero uses Vesper CloudFront mp4 at full opacity | VERIFIED | URL returns 200 video/mp4; wired in `src/routes/index.tsx` |
+| Auth gates /dashboard + /start; workspaces owned by user | VERIFIED | `beforeLoad` + `owner_id` in forge APIs |
+| No user-facing Lovable meta/OG | VERIFIED | `__root.tsx` title/OG/twitter = SMITH.forge |

@@ -28,6 +28,7 @@ export type Workspace = {
   evalNotes: string;
   packId: PackId;
   createdAt: string;
+  ownerId: string | null;
 };
 
 export type GenerationRecord = {
@@ -80,6 +81,7 @@ function mapWorkspace(row: {
   eval_notes: string;
   pack_id: string;
   created_at: string;
+  owner_id?: string | null;
 }): Workspace {
   return {
     id: row.id,
@@ -90,6 +92,7 @@ function mapWorkspace(row: {
     evalNotes: row.eval_notes,
     packId: row.pack_id as PackId,
     createdAt: row.created_at,
+    ownerId: row.owner_id ?? null,
   };
 }
 
@@ -100,6 +103,7 @@ export function createWorkspace(input: {
   name?: string;
   email?: string;
   evalNotes?: string;
+  ownerId?: string | null;
 }): Workspace {
   const tools = typeof input.tools === "string" ? input.tools : (input.tools ?? []).join(",");
   const row = {
@@ -111,11 +115,12 @@ export function createWorkspace(input: {
     eval_notes: input.evalNotes ?? "",
     pack_id: input.packId,
     created_at: nowIso(),
+    owner_id: input.ownerId ?? null,
   };
   getDb()
     .prepare(
-      `INSERT INTO workspaces (id, name, email, goal, tools, eval_notes, pack_id, created_at)
-       VALUES (@id, @name, @email, @goal, @tools, @eval_notes, @pack_id, @created_at)`,
+      `INSERT INTO workspaces (id, name, email, goal, tools, eval_notes, pack_id, created_at, owner_id)
+       VALUES (@id, @name, @email, @goal, @tools, @eval_notes, @pack_id, @created_at, @owner_id)`,
     )
     .run(row);
   return mapWorkspace(row);
@@ -123,15 +128,33 @@ export function createWorkspace(input: {
 
 export function getWorkspace(id: string): Workspace | null {
   const row = getDb().prepare(`SELECT * FROM workspaces WHERE id = ?`).get(id) as
-    Parameters<typeof mapWorkspace>[0] | undefined;
+    | Parameters<typeof mapWorkspace>[0]
+    | undefined;
   return row ? mapWorkspace(row) : null;
 }
 
-export function listWorkspaces(): Workspace[] {
-  const rows = getDb().prepare(`SELECT * FROM workspaces ORDER BY created_at DESC`).all() as Array<
-    Parameters<typeof mapWorkspace>[0]
-  >;
+export function listWorkspaces(ownerId?: string): Workspace[] {
+  const db = getDb();
+  const rows = (
+    ownerId
+      ? db
+          .prepare(
+            `SELECT * FROM workspaces WHERE owner_id = ? ORDER BY created_at DESC`,
+          )
+          .all(ownerId)
+      : db.prepare(`SELECT * FROM workspaces ORDER BY created_at DESC`).all()
+  ) as Array<Parameters<typeof mapWorkspace>[0]>;
   return rows.map(mapWorkspace);
+}
+
+/** Throws if workspace missing or not owned by userId. */
+export function requireOwnedWorkspace(workspaceId: string, userId: string): Workspace {
+  const ws = getWorkspace(workspaceId);
+  if (!ws) throw new Error(`Workspace not found: ${workspaceId}`);
+  if (ws.ownerId !== userId) {
+    throw new Error("Unauthorized: you do not own this workspace");
+  }
+  return ws;
 }
 
 function mapGeneration(row: {
@@ -361,10 +384,17 @@ export async function forgeOnce(workspaceId: string): Promise<{
   return { generation, run, report };
 }
 
-export function dashboardSummary() {
-  const workspaces = listWorkspaces();
-  const generations = listGenerations();
-  const runs = listRuns();
+export function dashboardSummary(ownerId?: string) {
+  const workspaces = listWorkspaces(ownerId);
+  const ownedIds = new Set(workspaces.map((w) => w.id));
+  const generations = (
+    ownerId
+      ? listGenerations().filter((g) => ownedIds.has(g.workspaceId))
+      : listGenerations()
+  );
+  const runs = (
+    ownerId ? listRuns().filter((r) => ownedIds.has(r.workspaceId)) : listRuns()
+  );
   const latest = runs[0];
   const memoryCount = workspaces.reduce(
     (n, w) => n + listMemories(w.id).length,

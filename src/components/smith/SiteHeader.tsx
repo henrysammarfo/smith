@@ -1,7 +1,10 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate, useRouter } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { SmithLogo } from "./Logo";
 import { cn } from "@/lib/utils";
+import { logoutFn, meFn } from "@/smith/auth/api";
 
 const NAV = [
   { label: "Benefits", to: "/benefits" as const },
@@ -12,6 +15,28 @@ const NAV = [
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+  const router = useRouter();
+  const queryClient = useQueryClient();
+  const me = useServerFn(meFn);
+  const logout = useServerFn(logoutFn);
+
+  const meQuery = useQuery({
+    queryKey: ["me"],
+    queryFn: () => me(),
+    staleTime: 30_000,
+  });
+  const user = meQuery.data;
+
+  const logoutMut = useMutation({
+    mutationFn: () => logout(),
+    onSuccess: async () => {
+      await queryClient.setQueryData(["me"], null);
+      await queryClient.invalidateQueries({ queryKey: ["me"] });
+      await router.invalidate();
+      void navigate({ to: "/" });
+    },
+  });
 
   useEffect(() => {
     if (typeof document === "undefined") return;
@@ -78,15 +103,58 @@ export function SiteHeader() {
           >
             Dashboard
           </Link>
+          {user ? (
+            <button
+              type="button"
+              onClick={() => {
+                setOpen(false);
+                logoutMut.mutate();
+              }}
+              style={{ ["--d" as string]: "0.72s" }}
+              className="liquid-pill appear appear-soft max-md:h-14 max-md:w-full max-md:rounded-[10px] max-md:text-[19px] md:hidden"
+            >
+              Logout
+            </button>
+          ) : (
+            <Link
+              to="/login"
+              onClick={() => setOpen(false)}
+              style={{ ["--d" as string]: "0.72s" }}
+              className="liquid-pill appear appear-soft max-md:h-14 max-md:w-full max-md:rounded-[10px] max-md:text-[19px] md:hidden"
+            >
+              Login
+            </Link>
+          )}
         </nav>
 
-        <Link
-          to="/start"
-          style={{ ["--d" as string]: "0.34s" }}
-          className="btn-shine btn-solid-metal appear appear-scale z-80 justify-self-end max-md:hidden"
-        >
-          Start for Free
-        </Link>
+        <div className="z-80 flex items-center gap-2 justify-self-end max-md:hidden">
+          {user ? (
+            <button
+              type="button"
+              onClick={() => logoutMut.mutate()}
+              style={{ ["--d" as string]: "0.28s" }}
+              className="btn-shine btn-ghost-frost appear appear-scale h-[42px] px-[16px]"
+              disabled={logoutMut.isPending}
+            >
+              Logout
+            </button>
+          ) : (
+            <Link
+              to="/login"
+              style={{ ["--d" as string]: "0.28s" }}
+              className="btn-shine btn-ghost-frost appear appear-scale h-[42px] px-[16px]"
+            >
+              Login
+            </Link>
+          )}
+          <Link
+            to={user ? "/start" : "/register"}
+            style={{ ["--d" as string]: "0.34s" }}
+            className="btn-shine btn-solid-metal appear appear-scale h-[42px] px-[18px]"
+          >
+            Start for Free
+          </Link>
+        </div>
 
         <button
           type="button"
