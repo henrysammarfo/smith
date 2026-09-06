@@ -3,6 +3,7 @@ import { join } from "node:path";
 import { smithChat } from "../../llm/client";
 import { aggregateTrialMetrics, evalTrialCount } from "../../forge/trials";
 import type { AgentArchitecture, Metrics, Trace } from "../../forge/types";
+import { INVOICE_CASES } from "./fixture-data";
 
 export type InvoiceLine = { description: string; amount: number };
 export type InvoiceCase = {
@@ -12,24 +13,12 @@ export type InvoiceCase = {
   expected: InvoiceLine[];
 };
 
-// Bundle fixtures into the server build. Vercel serverless has no
-// `src/smith/evals/**/fixtures` on disk under `/var/task`.
-const bundledInvoiceFixtures = import.meta.glob("./fixtures/*.json", {
-  eager: true,
-  import: "default",
-}) as Record<string, InvoiceCase>;
-
 function fixturesDir() {
   return join(process.cwd(), "src/smith/evals/invoices/fixtures");
 }
 
 export function loadInvoiceCases(): InvoiceCase[] {
-  const fromBundle = Object.keys(bundledInvoiceFixtures)
-    .sort()
-    .map((k) => bundledInvoiceFixtures[k]!);
-  if (fromBundle.length > 0) return fromBundle;
-
-  // Local scripts / non-Vite runners: read from the repo tree.
+  if (INVOICE_CASES.length > 0) return INVOICE_CASES as InvoiceCase[];
   return readdirSync(fixturesDir())
     .filter((f) => f.endsWith(".json"))
     .sort()
