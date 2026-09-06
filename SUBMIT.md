@@ -50,7 +50,7 @@ Full script: `docs/TRACK1_DEMO.md` (≤3 min). Skip login/auth UI.
 
 | Pack | Gen1 accuracy | Gen2 accuracy | Δ | Memories | Notes |
 |---|---|---|---|---|---|
-| invoices | (fill after `bun run smoke`) | | | | Cold-start weakened; harder fixtures inv_006/007 |
+| invoices | **0.000** (0/7) | **1.000** (7/7) | **+1.000** | 3 → 6 | TensorMux `glm-4-7-flash`; cold-start freeform + inv_006/007; `bun run smoke` 2026-09-06 |
 | grounds | (run before submit) | | | | Needs Tavily + TinyFish network |
 
 ## Discord

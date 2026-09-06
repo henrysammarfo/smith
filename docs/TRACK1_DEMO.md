@@ -32,7 +32,7 @@ Login, 2FA, multi-tenant auth, extra marketing sections, polishing unrelated UI.
 
 | Gen | Accuracy | Cost | Latency | Memories |
 |---|---|---|---|---|
-| 1 | | | | |
-| 2 | | | | |
+| 1 | 0.000 (0/7) | ~0 | ~911ms | 3 |
+| 2 | 1.000 (7/7) | ~0 | ~981ms | 6 |
 
-Command: `bun run smoke`
+Verified 2026-09-06 via `bun run smoke` (TensorMux `glm-4-7-flash`). Trajectory: G1=0.000 → G2=1.000; 2 reflections.

@@ -22,3 +22,4 @@
 - Judge tip: Track 1 scores learning (reflection, memory growth, tool context reuse, cost/speed) over domain polish/auth.
 - Added SQLite `memories`/`reflections`, `reflectAndRemember`, eval-time memory inject, cold-start weaken + harder invoice fixtures.
 - Mutate hardens freeform → JSON contract; forge UI shows trajectory/reflection/memory; `docs/TRACK1_DEMO.md`.
+- Live smoke: Gen1 accuracy **0.0** → Gen2 **1.0** (7 cases); durable memories 3→6; reflections 2; `LEARNING_VISIBLE` / `SMOKE_OK`.

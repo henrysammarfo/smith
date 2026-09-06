@@ -41,7 +41,7 @@ TanStack Start + Vite (Lovable), Zod, better-sqlite3, OpenAI-compatible LLM clie
 - Inference sponsor: TensorMux (50M tokens, ~30h window from announcement)
 
 ## Quality
-- `bun run unit` / `heal` / `smoke` / `build` — re-verify after learning-loop ship
+- `bun run unit` OK; `bun run smoke` OK — Gen1 **0.0** → Gen2 **1.0**, memories 3→6, reflections 2 (TensorMux)
 - Lint: 0 errors (UI-kit react-refresh warnings only)
 
 ## Non-goals (V1)

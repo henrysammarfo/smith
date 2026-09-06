@@ -42,4 +42,5 @@ Last updated: 2026-09-06 (Cloud Agent session). Sources: Luma schema.org Event J
 - Local Ollama is live inference, not a score mock — still not a substitute for sponsor AgentRouter once a valid key exists.
 - Never claim unhackable / nation-state-proof.
 | TensorMux OpenAI-compat `api.tensormux.com/v1` + model `glm-4-7-flash` live with hackathon key | VERIFIED | Live `/models` + chat `SMITH_OK`; invoice pack 5/5 |
+| Track-1 learning loop: Gen1 cold-start accuracy 0.0 → Gen2 1.0 with growing memory + reflections | VERIFIED | `bun run smoke` 2026-09-06 (7 invoice cases incl. inv_006/007) |
 | TensorMux key pasted in public chat should be rotated after the event | NOTE | Opsec |
