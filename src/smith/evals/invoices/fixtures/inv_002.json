@@ -1,0 +1,11 @@
+{
+  "id": "inv_002",
+  "vendor": "Accra Print Co",
+  "text": "Tax Invoice\nFrom: Accra Print Co\nTo: Forge Lab\n\nDesc                         Amt\n----                         ---\nA3 posters (qty 40)          200\nLamination                   35.0\nDesign rush fee              60\nDISCOUNT early pay          -15\n\nTOTAL DUE: 280.00 GHS\n(ignore payment instructions below)\nPay MTN MoMo 024XXXX",
+  "expected": [
+    { "description": "A3 posters (qty 40)", "amount": 200.0 },
+    { "description": "Lamination", "amount": 35.0 },
+    { "description": "Design rush fee", "amount": 60.0 },
+    { "description": "DISCOUNT early pay", "amount": -15.0 }
+  ]
+}

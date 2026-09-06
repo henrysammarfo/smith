@@ -1,0 +1,15 @@
+---
+description: SMITH forge doctrine — always apply on this repo
+alwaysApply: true
+---
+
+# SMITH doctrine
+
+- Track 1 only: Automated Agent Engineering. AO is mandatory for judging demos.
+- Official submit = Devpost. Discord showcase does not count.
+- No mock LLM responses, no fake eval scores, no fabricated AO sessions.
+- Never claim unhackable / nation-state-proof. Document residual risk honestly.
+- Secrets only in gitignored `.env`. Never print API keys in chat or commits.
+- Prefer existing forge patterns in `src/smith/**`. Fail closed if LLM unreachable after heal.
+- After material changes: update `memory/CURRENT_STATE.md` and append `memory/SESSION_LOG.md`.
+- Fact claims about the contest go through `memory/FACT_CHECK.md` (live sources only).

@@ -61,9 +61,8 @@ function Home() {
               className="appear appear-soft mt-[18px] max-w-[470px] text-[15.5px] leading-[1.55] tracking-[-0.015em] text-muted-foreground"
               style={{ ["--d" as string]: "0.82s", animationDuration: "1.25s" }}
             >
-              Name a job you have never automated. SMITH writes the agent, runs
-              your eval, classifies every failure, and forges a better
-              generation until the numbers move.
+              Name a job you have never automated. SMITH writes the agent, runs your eval,
+              classifies every failure, and forges a better generation until the numbers move.
             </p>
 
             <div className="mt-[26px] flex flex-wrap items-center justify-center gap-[10px] max-[560px]:w-full max-[560px]:flex-col">
@@ -90,8 +89,8 @@ function Home() {
             className="appear appear-stat inline-flex items-center gap-[14px] tracking-[-0.015em]"
             style={{ ["--d" as string]: "1.12s" }}
           >
-            <Hammer size={20} className="text-[#e8e8e8]" strokeWidth={1.6} />
-            2 domains forged in one loop
+            <Hammer size={20} className="text-[#e8e8e8]" strokeWidth={1.6} />2 domains forged in one
+            loop
           </span>
           <span
             className="appear appear-stat inline-flex items-center gap-[14px] tracking-[-0.015em]"

@@ -1,0 +1,6 @@
+{
+  "id": "gnd_003",
+  "claim": "AO for this hackathon is the Arweave aos Lua runtime, not a desktop agent orchestrator.",
+  "evidenceUrl": "https://aoagents.dev/",
+  "expected": "ungrounded"
+}

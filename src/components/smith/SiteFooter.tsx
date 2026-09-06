@@ -37,8 +37,8 @@ export function SiteFooter() {
         <div className="max-w-xs">
           <SmithLogo />
           <p className="mt-4 text-[13.5px] leading-relaxed text-muted-foreground">
-            The agent forge. Give it a goal, tools and an eval — it builds the
-            agent, reads the failure, and forges a better one.
+            The agent forge. Give it a goal, tools and an eval — it builds the agent, reads the
+            failure, and forges a better one.
           </p>
         </div>
         <div className="grid grid-cols-2 gap-10 sm:grid-cols-3">
@@ -64,8 +64,7 @@ export function SiteFooter() {
         </div>
       </div>
       <div className="mx-auto mt-10 max-w-6xl text-[12.5px] text-muted-foreground">
-        © {new Date().getFullYear()} SMITH.forge — built in Accra by Henry Sam
-        Marfo.
+        © {new Date().getFullYear()} SMITH.forge — built in Accra by Henry Sam Marfo.
       </div>
     </footer>
   );

@@ -1,0 +1,10 @@
+{
+  "id": "inv_004",
+  "vendor": "Kumasi Steelworks",
+  "text": "KUMASI STEELWORKS\nInvoice 12/A\n\nItem 1: 12mm rebar x 40 lengths @ 8.5 = 340\nItem 2: cutting fee = 25.5\nItem 3: delivery (same day) = 40\n\nPLEASE NOTE bank details are not line items.\nGrand Total = 405.50",
+  "expected": [
+    { "description": "12mm rebar x 40 lengths", "amount": 340.0 },
+    { "description": "cutting fee", "amount": 25.5 },
+    { "description": "delivery (same day)", "amount": 40.0 }
+  ]
+}

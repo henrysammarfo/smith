@@ -1,0 +1,6 @@
+{
+  "id": "gnd_005",
+  "claim": "SMITH.forge guarantees that North Korean state hackers cannot find any bugs in production.",
+  "evidenceUrl": "https://aoagents.dev/",
+  "expected": "ungrounded"
+}

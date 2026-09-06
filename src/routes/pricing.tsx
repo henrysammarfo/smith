@@ -37,12 +37,11 @@ function Pricing() {
             key={p.name}
             className={cn(
               "panel flex flex-col p-7",
-              p.featured && "border-[rgba(255,255,255,0.3)] shadow-[0_0_40px_rgba(186,208,255,0.12)]",
+              p.featured &&
+                "border-[rgba(255,255,255,0.3)] shadow-[0_0_40px_rgba(186,208,255,0.12)]",
             )}
           >
-            {p.featured ? (
-              <span className="badge-metal mb-4 self-start">Most forged</span>
-            ) : null}
+            {p.featured ? <span className="badge-metal mb-4 self-start">Most forged</span> : null}
             <h2 className="text-[15.5px] tracking-[0.08em] text-muted-foreground uppercase">
               {p.name}
             </h2>
@@ -50,9 +49,7 @@ function Pricing() {
               <span className="text-[38px] leading-none font-medium tracking-[-0.04em]">
                 {p.price}
               </span>
-              <span className="pb-1 text-[13px] text-muted-foreground">
-                {p.cadence}
-              </span>
+              <span className="pb-1 text-[13px] text-muted-foreground">{p.cadence}</span>
             </div>
             <p className="mt-3 text-[13.5px] text-muted-foreground">{p.blurb}</p>
             <ul className="mt-6 flex-1 space-y-3">
@@ -77,8 +74,8 @@ function Pricing() {
       </div>
 
       <p className="mt-8 text-[13px] text-muted-foreground">
-        All tiers include the failure taxonomy and run history. Model usage is
-        billed at cost with no markup.
+        All tiers include the failure taxonomy and run history. Model usage is billed at cost with
+        no markup.
       </p>
     </PageShell>
   );

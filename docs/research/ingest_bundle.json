@@ -1,0 +1,359 @@
+{
+  "fetchedAt": "2026-09-06T06:35:19.268Z",
+  "tavily": [
+    {
+      "query": "Anthropic demystifying evals for AI agents pass@k transcript grading",
+      "tool": "smith.tavily.search",
+      "answer": "Pass@k measures success in at least one of k attempts; pass^k measures success in all k attempts. Both metrics assess AI agent reliability. Higher k values increase reliability challenges.",
+      "results": [
+        {
+          "title": "Demystifying evals for AI agents",
+          "url": "https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents",
+          "content": "pass^k measures the probability that all k trials succeed. As k increases, pass^k falls since demanding consistency across more trials is a harder bar to clear. If your agent has a 75% per-trial success rate and you run 3 trials, the probability of passing all three is (0.75)³ ≈ 42%. This metric especially matters for customer-facing agents where users expect reliable behavior every time. [...] Y…"
+        },
+        {
+          "title": "Demystifying evals for AI agents | Madhur Prashant",
+          "url": "https://www.linkedin.com/posts/madhur-prashant-781548179_demystifying-evals-for-ai-agents-activity-7416492012998406144-MfcL",
+          "content": "is subjective and shifting. 4. Computer use agents: run in real or sandboxed GUI environments and verify true end state (not just a confirmation screen). Also evaluate strategy choices like DOM based vs screenshot based browsing for token and latency tradeoffs. Because agents vary run to run, Anthropic highlights two complementary metrics: pass@k (at least one success in k tries) and pass^k (all …"
+        },
+        {
+          "title": "Carlos E. Perez on X: \"🧵 Demystifying AI Agent Evaluations (Anthropic, 2026) Agentic systems can’t be judged by a single prompt → output. Anthropic just dropped a masterclass on evaluating agents over time, tools, and intent. Here are 8 essential evaluation patterns to borrow 🧪 👇 1. Eval Harne… / X",
+          "url": "https://x.com/IntuitMachine/status/2009943019336634555",
+          "content": "just pass/fail. 3. Grader Stack Different tasks need different graders. → Combine rule-based, LLM-based, and human grading for robustness. 4. Transcript-Centric Evaluation Don’t just grade outcomes. → Evaluate the process — tool calls, reasoning, retries. 5. Eval-as-Instrument Eval ≠ scorecard. → It’s a scientific instrument to measure model and prompt changes. 6. Agent Harness Wrap agents in a r…"
+        },
+        {
+          "title": "Demystifying Evals for AI Agents | Study Notes",
+          "url": "https://snowan.gitbook.io/study-notes/ai/ai-resources-1/evals/anthropic-demisfy-ai-evals",
+          "content": "Last updated 1. What is an Eval? 2. Why Agent Evals Are Hard 3. Eval Components 3.1 Task 3.2 Trial 3.3 Grader 3.4 Transcript 3.5 Outcome 4. Types of Evals 4.1 Capability Evals — “Can it do it?” 4.2 Regression Evals — “Does it still do it?” 5. Metrics Explained 5.1 pass@k 5.2 pass^k 6. Agent Types and Evaluation Focus Coding Agents Conversational Agents Research Agents Computer-Use Agents 7. Eval …"
+        },
+        {
+          "title": "The Roadmap to Mastering AI Agent Evaluation",
+          "url": "https://machinelearningmastery.com/the-roadmap-to-mastering-ai-agent-evaluation",
+          "content": "pass@k: the probability that at least one of k independent trials succeeds, useful when multiple attempts are acceptable pass^k: the probability that all k trials succeed, important when every interaction must be reliable For example, an agent with a 75 percent single-trial success rate succeeds on all three attempts only about 42 percent of the time, showing how quickly reliability degrades acro…"
+        }
+      ]
+    },
+    {
+      "query": "Anthropic writing effective tools for agents MCP tool design",
+      "tool": "smith.tavily.search",
+      "answer": "Effective tools for AI agents should be designed for agent-specific use, prioritize simplicity, and include thorough testing and evaluation. The Model Context Protocol (MCP) enhances tool effectiveness for large language model agents. Anthropic emphasizes iterative prototyping and feedback for tool optimization.",
+      "results": [
+        {
+          "title": "Writing effective tools for AI agents—using AI agents - Anthropic",
+          "url": "https://www.anthropic.com/engineering/writing-tools-for-agents",
+          "content": "This means fundamentally rethinking our approach when writing software for agents: instead of writing tools and MCP servers the way we’d write functions and APIs for other developers or systems, we need to design them for agents. [...] Namespacing (grouping related tools under common prefixes) can help delineate boundaries between lots of tools; MCP clients sometimes do this by default. For examp…"
+        },
+        {
+          "title": "Writing Effective Tools for Agents",
+          "url": "https://modelcontextprotocol.info/docs/tutorials/writing-effective-tools",
+          "content": "To connect your local MCP server to Claude Code, run `claude mcp add [args...]`. Tools can also be passed directly into Anthropic API calls for programmatic testing. Test the tools yourself to identify any rough edges. Collect feedback from your users to build an intuition around the use-cases and prompts you expect your tools to enable. ### Running an Evaluation [...] This means fundamentally re…"
+        },
+        {
+          "title": "Building Effective AI Agents - Anthropic",
+          "url": "https://www.anthropic.com/engineering/building-effective-agents",
+          "content": "1. Maintain simplicity in your agent's design. 2. Prioritize transparency by explicitly showing the agent’s planning steps. 3. Carefully craft your agent-computer interface (ACI) through thorough tool documentation and testing. [...] Agents can handle sophisticated tasks, but their implementation is often straightforward. They are typically just LLMs using tools based on environmental feedback in…"
+        },
+        {
+          "title": "How to write effective tools for LLM agents | Anthropic posted on the topic",
+          "url": "https://www.linkedin.com/posts/anthropicresearch_writing-effective-tools-for-ai-agentsusing-activity-7372002018103734272-YHWQ",
+          "content": "New on the Anthropic Engineering blog: writing effective tools for LLM agents. AI agents are only as powerful as the tools we give them. So how do we make those tools maximally effective? In this post, we share methods for improving the performance of tools, including how to: -Build and test prototypes of your tools; -Create and run comprehensive tool evaluations; -Use agents like Claude Code to …"
+        },
+        {
+          "title": "Medium",
+          "url": "https://techwithibrahim.medium.com/writing-effective-tools-for-ai-agents-production-lessons-from-anthropic-99ea76a7fcf0",
+          "content": "Sitemap Open in app Sign in Write Search Sign in Ali Ibrahim ## Ali Ibrahim Building the future one idea at a time From backend craftsmanship to the frontier of AI Agents, I’m here to create, break things, learn fast, and share the ride Member-only story Artificial Intelligence Software Development AI Agent Mcp Server Programming # Writing Effective Tools for AI Agents: Production Lessons from An…"
+        }
+      ]
+    },
+    {
+      "query": "Reflexion verbal reinforcement learning language agents arxiv",
+      "tool": "smith.tavily.search",
+      "answer": "Reflexion is a language agent that uses verbal reinforcement learning to improve without updating model weights. It employs self-reflection to convert feedback into written critiques for future improvements. The approach is computationally efficient compared to traditional reinforcement learning.",
+      "results": [
+        {
+          "title": "Reflexion: Language Agents with Verbal Reinforcement ...",
+          "url": "https://arxiv.org/abs/2303.11366",
+          "content": "archive # Computer Science > Artificial Intelligence # Title:Reflexion: Language Agents with Verbal Reinforcement Learning | | | --- | | Comments: | v4 contains a few additional experiments | | Subjects: | Artificial Intelligence (cs.AI); Computation and Language (cs.CL); Machine Learning (cs.LG) | | Cite as: | arXiv:2303.11366 [cs.AI] | | | (or arXiv:2303.11366v4 [cs.AI] for this version) | | | …"
+        },
+        {
+          "title": "Language Agents with Verbal Reinforcement Learning",
+          "url": "https://www.alphaxiv.org/abs/2303.11366",
+          "content": "This citation is highly relevant as it represents a key competing approach in the programming domain, where Reflexion demonstrates state-of-the-art results. The paper argues that its self-reflection mechanism is more effective than Self-Debugging's approach because it explicitly bridges the gap between identifying an error and implementing a correct fix. Chen, X., Lin, M., Schärli, N., and Zhou, …"
+        },
+        {
+          "title": "Noah Shinn",
+          "url": "https://scholar.google.com/citations?user=zTfIpA4AAAAJ&hl=en",
+          "content": "| Reflexion: Language agents with verbal reinforcement learning, june 2023 N Shinn, F Cassano, B Labash, A Gopinath, K Narasimhan, S Yao arXiv preprint arXiv:2303.11366, 0 | 7 | | | Declarative agent with hierarchical components using large language machine-learned models BS Taylor, CW Bavor Jr, A Asemanfar, JC Tung, BH Gu, KR Narasimhan, ... US Patent App. 19/051,047, 2025 | | 2025 | | Verbal RL…"
+        },
+        {
+          "title": "[NeurIPS 2023] Reflexion: Language Agents with Verbal ...",
+          "url": "https://github.com/noahshinn/reflexion",
+          "content": "### Cite ``` @misc shinn2023reflexion title{Reflexion: Language Agents with Verbal Reinforcement Learning}{} author{Noah Shinn and Federico Cassano and Edward Berman and Ashwin Gopinath and Karthik Narasimhan and Shunyu Yao}{} year{2023}{} eprint{2303.11366}{} archivePrefix{arXiv}{} primaryClass{cs.AI}{} ``` ## About [NeurIPS 2023] Reflexion: Language Agents with Verbal Reinforcement Learning ###…"
+        },
+        {
+          "title": "Reflexion: Language Agents with Verbal Reinforcement Learning — Colendi AI Research",
+          "url": "https://colendiai.com/intelligence-papers/reflexion-language-agents-with-verbal-reinforcement-learning",
+          "content": "arXiv:2303.11366 Citation caveat: Citation metadata is approximate and marked unverified in the source dataset. [...] Skip to content Colendi AIResearch Menu Agents & Tool Use· 2023 # Reflexion: Language Agents with Verbal Reinforcement Learning Noah Shinn, Federico Cassano, Edward Berman, Ashwin Gopinath, Karthik Narasimhan, Shunyu Yao Primary source ↗Repository ↗ > Reflexion added a verbal self…"
+        }
+      ]
+    },
+    {
+      "query": "Maximor AI autonomous finance agent learn escalate improve",
+      "tool": "smith.tavily.search",
+      "answer": "Maximor AI autonomously handles finance operations, learning from exceptions to improve. It escalates complex decisions to human teams for validation. The system continuously refines its processes based on feedback.",
+      "results": [
+        {
+          "title": "Maximor grows revenue 35x in 9 months as it elevates finance from task automation to full autonomy",
+          "url": "https://finance.yahoo.com/technology/ai/articles/maximor-grows-revenue-35x-9-143000811.html",
+          "content": "Around 98% of transactions on Maximor run end to end without intervention. The remaining 2% are escalated when Maximor encounters a decision it has not seen before. Once the team resolves it, the system learns how to handle it next time. [...] Maximor AI Maximor has expanded its platform to run finance operations autonomously across revenue, cash, close, accounts payable and receivable, and finan…"
+        },
+        {
+          "title": "Maximor: The autonomous finance platform",
+          "url": "https://www.maximor.ai",
+          "content": "Every Agent operates with human-in-loop validation built in. When confidence is below threshold or an anomaly is detected, the Agent escalates to your team with full context — what it found, why it flagged it, and what it recommends. Nothing posts without the right approval in place. ##### Do we need to change our close process to use Maximor? [...] Every Agent operates with human-in-loop validat…"
+        },
+        {
+          "title": "AI that runs finance, on any ERP | Maximor",
+          "url": "https://www.maximor.ai/why",
+          "content": "Every Agent operates with human-in-loop validation built in. When confidence is below threshold or an anomaly is detected, the Agent escalates to your team with full context — what it found, why it flagged it, and what it recommends. Nothing posts without the right approval in place. ##### Do we need to change our close process to use Maximor? [...] Every Agent operates with human-in-loop validat…"
+        },
+        {
+          "title": "Autonomous Finance: Self-Learning, Escalating, Improving",
+          "url": "https://www.linkedin.com/posts/ramnandan_should-we-build-our-own-ai-agents-or-buy-activity-7490441728898789376-4DO4",
+          "content": "Artificial intelligence is increasingly being embedded into finance processes. Invoice matching, expense approvals, forecasting, anomaly"
+        },
+        {
+          "title": "AI Agents in Finance: Definition - ChatFin",
+          "url": "https://chatfin.ai/glossary/ai-agents-in-finance-complete-guide-to-autonomous-financial-automation",
+          "content": "Accounts Payable Transformation: Before AI agents: AP team manually reviews 2,400 monthly invoices, matching to POs, investigating discrepancies, routing for approval. Takes 185 hours monthly. After: AI agent automatically processes 89% of invoices with zero human touch, escalates only 264 true exceptions requiring judgment. AP time reduced to 38 hours monthly focused on complex vendors and proce…"
+        }
+      ]
+    },
+    {
+      "query": "Claude managed agents harness session tools evaluation",
+      "tool": "smith.tavily.search",
+      "answer": "Claude Managed Agents provide a fully hosted infrastructure for AI agents, featuring a stateless harness, durable session context, and scalable orchestration tools. They improve task success rates and offer robust control over AI workflows.",
+      "results": [
+        {
+          "title": "Claude Managed Agents: Anthropic's Hosted AI Agent Guide",
+          "url": "https://www.vibecodingacademy.ai/blog/claude-managed-agents-guide",
+          "content": "Claude Managed Agents is Anthropic's fully hosted infrastructure that handles sandboxing, state management, tool execution, and orchestration so teams can go from prototype to production in days rather than months. The five-component architecture (Harness, Tools, Session, Sandbox, Orchestration) decouples AI reasoning from code execution, making the system horizontally scalable, fault-tolerant, a…"
+        },
+        {
+          "title": "Claude Managed Agents overview - Claude Platform Docs",
+          "url": "https://platform.claude.com/docs/en/managed-agents/overview",
+          "content": "Claude Managed Agents provides the harness and infrastructure for running Claude as an autonomous agent. Instead of building your own agent loop, tool execution, and runtime, you get a fully managed environment where Claude can read files, run commands, browse the web, and run code securely. The harness supports built-in prompt caching, compaction, and other performance optimizations for high-qua…"
+        },
+        {
+          "title": "How Claude Managed Agents Actually Works",
+          "url": "https://cobusgreyling.substack.com/p/how-claude-managed-agents-actually",
+          "content": "It’s pure logic. Call Claude, route tool invocations, write events to the session. That’s it. When a harness fails a new instance recovers with a single call. It reads the session log, reconstructs its position, and resumes. No data loss. No manual intervention. This is why you’ll sometimes see a brief pause in the Console’s activity stream followed by seamless continuation. A harness instance wa…"
+        },
+        {
+          "title": "Anthropic's Managed Agents Are Different (Here's Why) - YouTube",
+          "url": "https://www.youtube.com/watch?v=uxHolzq1NcA",
+          "content": "components. So, the session harness and orchestration. This is not to say the sandbox and tools are less important, but I would say these three are very unique. So, the harness, also known as the hands of the system, is where the Claude model is used, and it's also known as a stateless router because it routes tool calls, resources, and MCPs to their relevant place, or runs code and edits files i…"
+        },
+        {
+          "title": "Claude Managed Agents bring execution and control to AI ...",
+          "url": "https://www.helpnetsecurity.com/2026/04/09/claude-managed-agents-bring-execution-and-control-to-ai-agent-workflows",
+          "content": "In internal testing focused on structured file generation, Managed Agents improved task success rates by up to 10 points over standard prompting loops, with the largest gains on the hardest problems. The Claude Console includes session tracing, integration analytics, and troubleshooting tools, allowing developers to inspect tool calls, agent decisions, and failure modes. ### Early use cases and d…"
+        }
+      ]
+    }
+  ],
+  "tinyfishSearch": [
+    {
+      "query": "Anthropic demystifying evals for AI agents pass@k transcript grading",
+      "tool": "smith.tinyfish.search",
+      "results": [
+        {
+          "title": "Demystifying evals for AI agents",
+          "url": "https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents",
+          "snippet": "Once you have a set of pass-or-fail tests for validating the key outcomes of a coding task, it's often useful to also grade the transcript. For ..."
+        },
+        {
+          "title": "Anthropic's agent evals post nailed the part most of us skip",
+          "url": "https://www.reddit.com/r/AI_Agents/comments/1q8m43y/anthropics_agent_evals_post_nailed_the_part_most/",
+          "snippet": "pass@k vs pass^k is a clean way to decide whether you're optimizing for “one good attempt is fine” or “this must work every time.”"
+        },
+        {
+          "title": "Evaluating AI Agents: From Single Answers to Systems ...",
+          "url": "https://medium.com/@adnanmasood/evaluating-ai-agents-from-single-answers-to-systems-that-act-213b319949fb",
+          "snippet": "Anthropic's recent post, Demystifying evals for AI agents is an excellent primer to evaluating AI agents and argues that evaluating AI agents ..."
+        },
+        {
+          "title": "Anthropic's Agent Evaluation Strategies for Reliable ...",
+          "url": "https://www.linkedin.com/posts/madhur-prashant-781548179_demystifying-evals-for-ai-agents-activity-7416492012998406144-MfcL",
+          "snippet": "An eval is: give the agent a task, run trials, record the full transcript, and grade both the transcript … optional transcript grading for tool ..."
+        },
+        {
+          "title": "Demystifying Evals for AI Agents - Kuma Blog | Study Notes",
+          "url": "https://snowan.gitbook.io/study-notes/ai/ai-resources-1/evals/anthropic-demisfy-ai-evals",
+          "snippet": "What is an Eval? An evaluation (eval) is a structured test where an AI agent is given a task and is graded on whether it succeeds."
+        }
+      ]
+    },
+    {
+      "query": "Anthropic writing effective tools for agents MCP tool design",
+      "tool": "smith.tinyfish.search",
+      "results": [
+        {
+          "title": "Writing effective tools for AI agents—using ...",
+          "url": "https://www.anthropic.com/engineering/writing-tools-for-agents",
+          "snippet": "The Model Context Protocol (MCP) can empower LLM agents with potentially hundreds of tools to solve real-world tasks."
+        },
+        {
+          "title": "How to write effective tools for agents [ from Anthropic ]",
+          "url": "https://www.reddit.com/r/LLMDevs/comments/1nfg54u/how_to_write_effective_tools_for_agents_from/",
+          "snippet": "A summary of what Anthropic wrote about in their latest resource on how to write effective tools with your agents using agents 1/ More tools != ..."
+        },
+        {
+          "title": "Effective context engineering for AI agents",
+          "url": "https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents",
+          "snippet": "In Writing tools for AI agents – with AI agents, we discussed building tools that are well understood by LLMs"
+        },
+        {
+          "title": "How to write effective tools for LLM agents",
+          "url": "https://www.linkedin.com/posts/anthropicresearch_writing-effective-tools-for-ai-agentsusing-activity-7372002018103734272-YHWQ",
+          "snippet": "In this post, we share methods for improving the performance of tools, including how to: -Build and test prototypes of your tools; -Create and ..."
+        },
+        {
+          "title": "Code execution with MCP: building more efficient AI agents",
+          "url": "https://www.anthropic.com/engineering/code-execution-with-mcp",
+          "snippet": "Agents scale better by writing code to call tools instead. In this blog we'll explore how code execution can enable agents to interact with MCP ..."
+        }
+      ]
+    },
+    {
+      "query": "Reflexion verbal reinforcement learning language agents arxiv",
+      "tool": "smith.tinyfish.search",
+      "results": [
+        {
+          "title": "Reflexion: Language Agents with Verbal Reinforcement ...",
+          "url": "https://arxiv.org/abs/2303.11366",
+          "snippet": "by N Shinn · 2023 · Cited by 7370 — We propose Reflexion, a novel framework to reinforce language agents not by updating weights, but instead through linguistic feedback."
+        },
+        {
+          "title": "Reflexion: language agents with verbal reinforcement ...",
+          "url": "https://openreview.net/forum?id=vAElhFcKW6",
+          "snippet": "by N Shinn · Cited by 7269 — The paper presents Reflexion, a framework to reinforce language agents by using language feedback. Reflexion agents verbally reflect on task ..."
+        },
+        {
+          "title": "Noah Shinn",
+          "url": "https://scholar.google.com/citations?user=zTfIpA4AAAAJ&hl=en",
+          "snippet": "Reflexion: Language agents with verbal reinforcement learning, june 2023. N Shinn, F Cassano, B Labash, A Gopinath, K Narasimhan, S Yao. arXiv preprint arXiv: ..."
+        },
+        {
+          "title": "Reflexion: Language Agents with Verbal Reinforcement ...",
+          "url": "https://arxiv.org/pdf/2303.11366",
+          "snippet": "by N Shinn · 2023 · Cited by 7370 — In this paper, we propose an alternative approach called Reflexion that uses verbal reinforcement to help agents learn from prior failings."
+        },
+        {
+          "title": "[NeurIPS 2023] Reflexion: Language Agents with Verbal ...",
+          "url": "https://github.com/noahshinn/reflexion",
+          "snippet": "This repo holds the code, demos, and log files for Reflexion: Language Agents with Verbal Reinforcement Learning by Noah Shinn, Federico Cassano, Edward Berman ..."
+        }
+      ]
+    },
+    {
+      "query": "Maximor AI autonomous finance agent learn escalate improve",
+      "tool": "smith.tinyfish.search",
+      "results": [
+        {
+          "title": "Maximor AI: Autonomous Finance for CFOs - LinkedIn",
+          "url": "https://www.linkedin.com/posts/ramnandan_introducing-maximor-ai-the-autonomous-activity-7493699960857686016-zFEJ",
+          "snippet": "Introducing: Maximor AI - the autonomous finance platform. If the thought of autonomous finance terrifies you, you're not alone."
+        },
+        {
+          "title": "Autonomous Finance: Self-Learning, Escalating, Improving - LinkedIn",
+          "url": "https://www.linkedin.com/posts/ramnandan_should-we-build-our-own-ai-agents-or-buy-activity-7490441728898789376-4DO4",
+          "snippet": "For a solution to be truly autonomous, it has to satisfy three criteria: self-learning, self-escalating, and self-improving. Maximor AI: finance"
+        },
+        {
+          "title": "Autonomous Finance with Maximor AI - LinkedIn",
+          "url": "https://www.linkedin.com/posts/ramnandan_no-fluff-but-a-bunch-of-folks-really-obsessed-activity-7489007065844260864-Bnsx",
+          "snippet": "It's about enabling technology to proactively handle routine financial tasks based on your preferences and with your permission while you remain ..."
+        },
+        {
+          "title": "AI that runs finance, on any ERP - Maximor",
+          "url": "https://www.maximor.ai/why",
+          "snippet": "AI that runs finance, on any ERP. Use Maximor's Audit-Ready Agents™ to automate workflows across revenue, cash, close, consolidation and cross-silo visibility."
+        },
+        {
+          "title": "Automation stops at the edge case. Autonomous finance learns from it ...",
+          "url": "https://www.linkedin.com/posts/maximor-ai_automation-stops-at-the-edge-case-autonomous-activity-7501323156528209921-vdAY",
+          "snippet": "... agents know the answer going forward. Explained by the people building it. Loved by the clients using it. Learn more at https://www.maximor.ai/."
+        }
+      ]
+    },
+    {
+      "query": "Claude managed agents harness session tools evaluation",
+      "tool": "smith.tinyfish.search",
+      "results": [
+        {
+          "title": "Claude Managed Agents overview - Claude Platform Docs",
+          "url": "https://platform.claude.com/docs/en/managed-agents/overview",
+          "snippet": "The harness supports built-in prompt caching, compaction, and other performance optimizations for high-quality, efficient agent outputs. To build your own agent ..."
+        },
+        {
+          "title": "Scaling Managed Agents: Decoupling the brain from the hands",
+          "url": "https://www.anthropic.com/engineering/managed-agents",
+          "snippet": "For example, Claude Code is an excellent harness that we use widely across tasks. We've also shown that task-specific agent harnesses excel in ..."
+        },
+        {
+          "title": "Claude Managed Agents: What It Actually Offers, the Honest Pros ...",
+          "url": "https://medium.com/@unicodeveloper/claude-managed-agents-what-it-actually-offers-the-honest-pros-and-cons-and-how-to-run-agents-52369e5cff14",
+          "snippet": "Session tracing, integration analytics, and troubleshooting guidance are built into the Claude Console. You can see every tool call, every ..."
+        },
+        {
+          "title": "Anthropic's Managed Agents Are Different (Here's Why) - YouTube",
+          "url": "https://www.youtube.com/watch?v=uxHolzq1NcA",
+          "snippet": "... Managed Agents work under the hood (harness, session, orchestrator), demo building a personal medical agent using Claude Code that connects ..."
+        },
+        {
+          "title": "We built an open-source, model-neutral agent harness and ... - Reddit",
+          "url": "https://www.reddit.com/r/LocalLLaMA/comments/1w65ise/we_built_an_opensource_modelneutral_agent_harness/",
+          "snippet": "We built an open-source, model-neutral agent harness and compared it with claude managed agents - for the same model, got same accuracy, upto 75 ..."
+        }
+      ]
+    }
+  ],
+  "tinyfishFetch": [
+    {
+      "tool": "smith.tinyfish.fetch",
+      "results": [
+        {
+          "url": "https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents",
+          "title": "Demystifying evals for AI agents",
+          "text": "Engineering at Anthropic # Demystifying evals for AI agents Published Jan 09, 2026 The capabilities that make agents useful also make them difficult to evaluate. The strategies that work across deployments combine techniques to match the complexity of the systems they measure. ## Introduction Good evaluations help teams ship AI agents more confidently. Without them, it’s easy to get stuck in reactive loops—catching issues only in production, where fixing one failure creates others. Evals make problems and behavioral changes visible before they affect users, and their value compounds over the lifecycle of an agent. As we described in Building effective agents, agents operate over many turns: calling tools, modifying state, and adapting based on intermediate results. These same capabilities that make AI agents useful—autonomy, intelligence, and flexibility—also make them harder to evaluate. Through our internal work and with customers at the frontier of agent development, we’ve learned how to design more rigorous and useful evals for agents. Here's what's worked across a range of agent architectures and use cases in real-world deployment. ## The structure of an evaluation An **evaluation** (“eval”) is a test for an AI system: give an AI an input, then apply grading logic to its output to measure success. In this post, we focus on **automated evals** that can be run during development without real users. **Single-turn evaluations** are straightforward: a prompt, a response, and grading logic. For earlier LLMs, single-turn, non-agentic evals were the main evaluation method. As AI capabilities have advanced, **multi-turn evaluations** have become increasingly common. In a simple eval, an agent processes a prompt, and a grader checks if the output matches expectations. For a more complex multi-turn eval, a coding agent receives tools, a task (building an MCP server in this case), and an environment, executes an \"agent loop\" (tool calls and reasoning), and updates the environment with the implementation. Grading then uses unit tests to verify the working MCP server. **Agent evaluations** are even more complex. Agents use tools across many turns, modifying state in the environment and adapting as they go—which means mistakes can propagate and compound. Frontier models can also find creative solutions that surpass the limits of static evals. For instance, Opus 4.5 solved a 𝜏2-bench problem about booking a flight by discovering a loophole in the policy. It “failed”"
+        },
+        {
+          "url": "https://www.anthropic.com/engineering/writing-tools-for-agents",
+          "title": "Writing effective tools for AI agents—using AI agents",
+          "text": "Engineering at Anthropic # Writing effective tools for agents — with agents Published Sep 11, 2025 Agents are only as effective as the tools we give them. We share how to write high-quality tools and evaluations, and how you can boost performance by using Claude to optimize its tools for itself. The Model Context Protocol (MCP) can empower LLM agents with potentially hundreds of tools to solve real-world tasks. But how do we make those tools maximally effective? In this post, we describe our most effective techniques for improving performance in a variety of agentic AI systems1. We begin by covering how you can: * Build and test prototypes of your tools * Create and run comprehensive evaluations of your tools with agents * Collaborate with agents like Claude Code to automatically increase the performance of your tools We conclude with key principles for writing high-quality tools we’ve identified along the way: * Choosing the right tools to implement (and not to implement) * Namespacing tools to define clear boundaries in functionality * Returning meaningful context from tools back to agents * Optimizing tool responses for token efficiency * Prompt-engineering tool descriptions and specs Building an evaluation allows you to systematically measure the performance of your tools. You can use Claude Code to automatically optimize your tools against this evaluation. ## What is a tool? In computing, deterministic systems produce the same output every time given identical inputs, while *non-deterministic* systems—like agents—can generate varied responses even with the same starting conditions. When we traditionally write software, we’re establishing a contract between deterministic systems. For instance, a function call like `getWeather(“NYC”)` will always fetch the weather in New York City in the exact same manner every time it is called. Tools are a new kind of software which reflects a contract between deterministic systems and non-deterministic agents. When a user asks \"Should I bring an umbrella today?,” an agent might call the weather tool, answer from general knowledge, or even ask a clarifying question about location first. Occasionally, an agent might hallucinate or even fail to grasp how to use a tool. This means fundamentally rethinking our approach when writing software for agents: instead of writing tools and MCP servers the way we’d write functions and APIs for other developers or systems, we need to design them for agents. Our goal is to increase t"
+        },
+        {
+          "url": "https://platform.claude.com/docs/en/managed-agents/overview",
+          "title": "Claude Managed Agents overview",
+          "text": "Anthropic offers two ways to build with Claude, each suited to different use cases: | | Messages API | Claude Managed Agents | | --- | --- | --- | | **What it is** | Direct model prompting access | Pre-built, configurable agent harness that runs in managed infrastructure | | **Best for** | Custom agent loops and fine-grained control | Long-running tasks and asynchronous work | Claude Managed Agents provides the harness and infrastructure for running Claude as an autonomous agent. Instead of building your own agent loop, tool execution, and runtime, you get a fully managed environment where Claude can read files, run commands, browse the web, and run code securely. The harness supports built-in prompt caching, compaction, and other performance optimizations for high-quality, efficient agent outputs. To build your own agent loop with direct model access instead, see Using the Messages API. Quickstart Create your first agent session Start a session Create a session and send your first event Reference Event types, rate limits, CLI flags, and other lookup tables ## Core concepts Claude Managed Agents is built around four concepts: | Concept | Description | | --- | --- | | **Agent** | The model, system prompt, tools, MCP servers, and skills | | **Environment** | Configuration for where sessions run: an Anthropic-managed cloud sandbox, or a self-hosted sandbox on your own infrastructure | | **Session** | A running agent instance within an environment, performing a specific task and generating outputs | | **Events** | Messages exchanged between your application and the agent (user turns, tool results, status updates) | ## How it works 1. ### Create an agent Define the model, system prompt, tools, MCP servers, and skills. Create the agent once and reference it by ID across sessions. 2. ### Create an environment Configure where the agent runs: a cloud sandbox, or a self-hosted sandbox on your own infrastructure. 3. ### Start a session Launch a session that references your agent and environment configuration. 4. ### Send events and stream responses Send user messages as events. Claude autonomously runs tools and streams back results through server-sent events (SSE). Event history is persisted server-side and can be fetched in full. 5. ### Steer or interrupt Send additional user events to guide the agent mid-execution, or interrupt it to change direction. ## When to use Claude Managed Agents Claude Managed Agents is best for workloads that need: * **Long-running execu"
+        },
+        {
+          "url": "https://www.maximor.ai/",
+          "title": "Maximor: The autonomous finance platform",
+          "text": "### Shape what the business does next. Real-time visibility across every entity and system, and a finance function that runs without constant intervention. Audit-Ready Agents™ handle the manual work, bring you in when judgment is needed, and get smarter with every close. On top of your ERP. No rip-and-replace, no migration. But most of the job is making sure the numbers are right, not using them. Every tool so far has only tracked that work, never done it, so the fix is always more people, more weekends. The platform does the work and brings in the right person when judgment is needed. Your team stops rebuilding the numbers and starts using them. No added headcount, no lost weekends. But most of the job is making sure the numbers are right, not using them. Every tool so far has only tracked that work, never done it, so the fix is always more people, more weekends. The platform does the work and brings in the right person when judgment is needed. Your team stops rebuilding the numbers and starts using them. No added headcount, no lost weekends. Point tools automate a slice. Audit-Ready Agents™ run the whole function, on one shared context. From finance teams already running it. The work runs continuously in the background. Your team closes in days, not weeks, and shows up to review, not to do. Every workpaper, entry and reconciliation ships with its audit trail built in. No scrambling at quarter-end. Agents work the levers behind your numbers (collections, payment terms, billing, spend) so the KPIs actually move. Not dashboards that score the business; agents that shape it. Learns your finance function. Runs the work. Gets smarter as it goes. Your ERP, the systems around it, and the unstructured data your team actually works in. No dashboard tour. See the work get done — the contract read, the cash applied, the accrual booked, the ledger reconciled — each step carrying its own evidence. One platform, two ways in: leverage for the CFO, control for the Controller. Real-time visibility across every entity and system, and a finance function that runs without constant intervention. Maximor orchestrates the close, prepares reconciliations, runs the subledgers, and logs every action, so you review and approve. From the CFOs running it to the leaders watching it reshape the industry. “We cut our close from 11 days to 3 and automated revenue recognition across thousands of contracts, freeing eight days for strategy and cutting audit issues by over 90%.” “Maximor aut"
+        }
+      ]
+    }
+  ],
+  "lessons": [
+    "Eval harness = tasks × trials × graders; report pass@k and pass^k, not a single lucky run.",
+    "Keep a capability suite (hard, low pass) separate from a regression suite (near-100%).",
+    "Prefer deterministic graders for structured outputs; use LLM graders only for nuance.",
+    "Tool contracts must be agent-ergonomic: namespaced ids, concrete descriptions, truncated returns.",
+    "Fetch primary evidence (TinyFish) before broad search (Tavily); thin evidence → ungrounded.",
+    "Reflexion loop: reflect in natural language → store episode memory → reuse on later generations.",
+    "Maximor pattern (Track-2 inspiration): learn policy → run work → escalate judgment → improve.",
+    "Cost/latency are first-class metrics alongside accuracy for Track-1 cost-effectiveness."
+  ]
+}

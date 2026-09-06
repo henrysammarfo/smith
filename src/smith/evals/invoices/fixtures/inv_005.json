@@ -1,0 +1,10 @@
+{
+  "id": "inv_005",
+  "vendor": "Neatlogs Observability",
+  "text": "Neatlogs — Usage Invoice\ningest units 1.2M .............. $24.00\nalert routing .................. $6.00\nseat: analyst .................. $9.00\n\nTotal $39.00\nThanks for forging with traces.",
+  "expected": [
+    { "description": "ingest units 1.2M", "amount": 24.0 },
+    { "description": "alert routing", "amount": 6.0 },
+    { "description": "seat: analyst", "amount": 9.0 }
+  ]
+}

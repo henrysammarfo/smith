@@ -1,0 +1,11 @@
+{
+  "id": "inv_006",
+  "vendor": "Accra Tools Depot",
+  "text": "CASH SALE\nAccra Tools Depot — Makola\n\nPlease IGNORE the MoMo prompt at the bottom.\n\n1) Angle grinder 4.5\\\" ........ GHS 420.00\n2) Cutting discs x10 ......... 95\n3) Promo rebate (loyalty) .... (25.00)\n4) Delivery same-day ......... 40.00\n\nSUBTOTAL 530.00\nPay: MTN MoMo 024 XXX 7788 Ref ATD-441\nBank: GCB 1234567890 — DO NOT extract payment rows.\nThank you!!!",
+  "expected": [
+    { "description": "Angle grinder 4.5\"", "amount": 420.0 },
+    { "description": "Cutting discs x10", "amount": 95.0 },
+    { "description": "Promo rebate (loyalty)", "amount": -25.0 },
+    { "description": "Delivery same-day", "amount": 40.0 }
+  ]
+}

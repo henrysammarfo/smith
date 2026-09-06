@@ -15,8 +15,7 @@ export const Route = createFileRoute("/how-it-works")({
       { property: "og:title", content: "How It Works — SMITH.forge" },
       {
         property: "og:description",
-        content:
-          "Goal plus tools plus eval, in. A measurably better agent generation, out.",
+        content: "Goal plus tools plus eval, in. A measurably better agent generation, out.",
       },
     ],
   }),
@@ -34,15 +33,9 @@ function HowItWorks() {
       <ol className="grid gap-4 md:grid-cols-2">
         {forgeLoop.map((s) => (
           <li key={s.step} className="panel p-6">
-            <span className="text-[12.5px] tracking-[0.14em] text-muted-foreground">
-              {s.step}
-            </span>
-            <h2 className="mt-3 text-[18px] font-medium tracking-[-0.02em]">
-              {s.title}
-            </h2>
-            <p className="mt-2 text-[13.5px] leading-relaxed text-muted-foreground">
-              {s.body}
-            </p>
+            <span className="text-[12.5px] tracking-[0.14em] text-muted-foreground">{s.step}</span>
+            <h2 className="mt-3 text-[18px] font-medium tracking-[-0.02em]">{s.title}</h2>
+            <p className="mt-2 text-[13.5px] leading-relaxed text-muted-foreground">{s.body}</p>
           </li>
         ))}
       </ol>
@@ -52,25 +45,16 @@ function HowItWorks() {
           What the forge <em className="serif-accent">actually reads</em>
         </h2>
         <p className="mt-2 max-w-[520px] text-[13.5px] text-muted-foreground">
-          Failures are sorted into classes, each with the patch that historically
-          fixes it.
+          Failures are sorted into classes, each with the patch that historically fixes it.
         </p>
         <div className="panel mt-6 divide-y divide-border">
           {failTaxonomy.map((f) => (
-            <div
-              key={f.label}
-              className="flex flex-wrap items-center gap-4 px-6 py-4"
-            >
+            <div key={f.label} className="flex flex-wrap items-center gap-4 px-6 py-4">
               <span className="min-w-[220px] flex-1 text-[14px]">{f.label}</span>
               <div className="h-[6px] w-40 overflow-hidden rounded-full bg-muted">
-                <div
-                  className="h-full rounded-full bg-stat"
-                  style={{ width: `${f.share}%` }}
-                />
+                <div className="h-full rounded-full bg-stat" style={{ width: `${f.share}%` }} />
               </div>
-              <span className="w-12 text-right text-[13px] text-muted-foreground">
-                {f.share}%
-              </span>
+              <span className="w-12 text-right text-[13px] text-muted-foreground">{f.share}%</span>
               <span className="text-[13px] text-ember">{f.patch}</span>
             </div>
           ))}

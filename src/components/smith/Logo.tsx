@@ -4,13 +4,7 @@ import { cn } from "@/lib/utils";
  * SMITH mark — an anvil silhouette struck by a spark.
  * Single-path monochrome geometry so it prints clean on merch at any size.
  */
-export function SmithMark({
-  size = 22,
-  className,
-}: {
-  size?: number;
-  className?: string;
-}) {
+export function SmithMark({ size = 22, className }: { size?: number; className?: string }) {
   return (
     <svg
       width={size}

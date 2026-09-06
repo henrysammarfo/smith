@@ -1,0 +1,11 @@
+{
+  "id": "inv_003",
+  "vendor": "Orbit Cloud",
+  "text": "ORBIT CLOUD — RECEIPT\nSubscription: Agent Runner Pro\nPeriod: Jul 2026\n\n* Base plan ........................ 49.00 USD\n* Extra seats (3) .................. 30.00\n* Support pack ..................... 12.00\nPromo CREDIT applied .............. -10.00\nAmount charged: 81.00\n\nVAT not applicable (export).",
+  "expected": [
+    { "description": "Base plan", "amount": 49.0 },
+    { "description": "Extra seats (3)", "amount": 30.0 },
+    { "description": "Support pack", "amount": 12.0 },
+    { "description": "Promo CREDIT applied", "amount": -10.0 }
+  ]
+}

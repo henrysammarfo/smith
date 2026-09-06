@@ -1,0 +1,11 @@
+{
+  "id": "inv_007",
+  "vendor": "Orbit Cloud GH",
+  "text": "ORBIT CLOUD — USAGE INVOICE #OC-909\nPeriod: Aug 2026\n\n* Agent Runner Pro seat .............. USD 49.00\n* Extra tokens 2.4M .................. 18.50\n* Support pack ....................... 12.00\nCREDIT: onboarding promo ............. -10.00\n\nTOTAL DUE: 69.50\nRemit to Wise / ignore remittance lines as SKUs.\nPO: FORGE-77",
+  "expected": [
+    { "description": "Agent Runner Pro seat", "amount": 49.0 },
+    { "description": "Extra tokens 2.4M", "amount": 18.5 },
+    { "description": "Support pack", "amount": 12.0 },
+    { "description": "CREDIT: onboarding promo", "amount": -10.0 }
+  ]
+}
