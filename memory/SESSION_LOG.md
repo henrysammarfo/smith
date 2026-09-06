@@ -51,3 +51,8 @@
 - Favicon/OG = SMITH mark; /start select dark-theme fix.
 - Requested VERCEL_TOKEN / dashboard env so live forge can call LLM.
 - AO next: message agent on smith project with smoke + forge tasks (`docs/AO_NEXT.md`).
+
+## 2026-09-06 — Vercel envs + forge workspace handoff + cursor demo
+- Upserted TensorMux/AgentRouter/Tavily/TinyFish envs on Vercel `smith` via temporary token; production redeployed from `henrysammarfo/smith` main.
+- Fixed `/start` → `/dashboard/forge?workspaceId=` so Forge once is enabled after open.
+- Recording headed Chrome cursor/zoom demo (Gen1→Gen2) for Devpost.

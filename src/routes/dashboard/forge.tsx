@@ -1,7 +1,8 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { z } from "zod";
 import {
   DashboardShell,
   MetricCard,
@@ -16,7 +17,12 @@ import {
   listWorkspacesFn,
 } from "@/smith/forge/api";
 
+const forgeSearchSchema = z.object({
+  workspaceId: z.string().optional(),
+});
+
 export const Route = createFileRoute("/dashboard/forge")({
+  validateSearch: forgeSearchSchema,
   component: ForgePage,
 });
 
@@ -63,13 +69,15 @@ type ReportView = {
 
 function ForgePage() {
   const qc = useQueryClient();
+  const navigate = useNavigate();
+  const { workspaceId: workspaceIdFromSearch } = Route.useSearch();
   const listWorkspaces = useServerFn(listWorkspacesFn);
   const createWorkspace = useServerFn(createWorkspaceFn);
   const forgeOnce = useServerFn(forgeOnceFn);
   const dashSummary = useServerFn(getDashboardFn);
   const listLearning = useServerFn(listLearningFn);
 
-  const [workspaceId, setWorkspaceId] = useState("");
+  const [workspaceId, setWorkspaceId] = useState(workspaceIdFromSearch ?? "");
   const [goal, setGoal] = useState(
     "Extract invoice line items accurately from messy vendor PDFs/text.",
   );
@@ -81,6 +89,20 @@ function ForgePage() {
     queryKey: ["workspaces"],
     queryFn: () => listWorkspaces(),
   });
+
+  useEffect(() => {
+    if (workspaceIdFromSearch) {
+      setWorkspaceId(workspaceIdFromSearch);
+    }
+  }, [workspaceIdFromSearch]);
+
+  useEffect(() => {
+    if (workspaceId) return;
+    const list = workspacesQ.data ?? [];
+    if (list.length > 0) {
+      setWorkspaceId(list[0]!.id);
+    }
+  }, [workspaceId, workspacesQ.data]);
 
   const dashQ = useQuery({
     queryKey: ["dashboard-summary"],
@@ -112,6 +134,10 @@ function ForgePage() {
       void qc.invalidateQueries({ queryKey: ["workspaces"] });
       void qc.invalidateQueries({ queryKey: ["dashboard"] });
       void qc.invalidateQueries({ queryKey: ["dashboard-summary"] });
+      void navigate({
+        to: "/dashboard/forge",
+        search: { workspaceId: ws.id },
+      });
     },
     onError: (e: Error) => setError(e.message),
   });

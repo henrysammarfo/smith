@@ -61,3 +61,5 @@ CFO track, payments/SSO, fake AO sessions, mock LLM scores, “unhackable” cla
 - Judge-simple README + `docs/FOR_JUDGES.md` + Excalidraw/mermaid diagrams under `docs/diagrams/`.
 - Toolchain: `@excalidraw/mermaid-to-excalidraw` + Excalidraw via `bun run diagrams`.
 - Vercel deploy in progress; SQLite path uses `/tmp/smith.db` on Vercel.
+
+- `/start` now opens `/dashboard/forge?workspaceId=` so the forge run panel auto-selects the new workspace.
