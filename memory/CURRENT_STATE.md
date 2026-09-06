@@ -56,3 +56,8 @@ TanStack Start + Vite (Lovable), Zod, better-sqlite3, OpenAI-compatible LLM clie
 
 ## Non-goals (V1)
 CFO track, payments/SSO, fake AO sessions, mock LLM scores, “unhackable” claims.
+
+## Docs / deploy (2026-09-06)
+- Judge-simple README + `docs/FOR_JUDGES.md` + Excalidraw/mermaid diagrams under `docs/diagrams/`.
+- Toolchain: `@excalidraw/mermaid-to-excalidraw` + Excalidraw via `bun run diagrams`.
+- Vercel deploy in progress; SQLite path uses `/tmp/smith.db` on Vercel.

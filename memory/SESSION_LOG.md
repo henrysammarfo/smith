@@ -39,3 +39,8 @@
 - Merged `cursor/smith-forge-track1-255e` → `main` (`39077e2`) and pushed.
 - Secret scan clean; `.env` gitignored.
 - `gh`/`API` cannot set visibility (403 Resource not accessible by integration). Owner must: Settings → Danger Zone → Change visibility → Public.
+
+## 2026-09-06 — Judge docs + Excalidraw + Vercel
+- Added simple README/FOR_JUDGES/ARCHITECTURE; mermaid→png + `.excalidraw` scenes.
+- Script `scripts/mermaid-to-excalidraw.mjs` uses Excalidraw libs in headless Chrome.
+- Preparing Vercel git project deploy for henrysammarfo/smith.

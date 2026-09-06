@@ -16,16 +16,28 @@ const EnvSchema = z.object({
   TAVILY_API_KEY: z.string().optional().default(""),
   TINYFISH_API_KEY: z.string().optional().default(""),
   TINYFISH_BASE_URL: z.string().default("https://agent.tinyfish.ai/v1"),
-  SMITH_DB_PATH: z.string().default("data/smith.db"),
+  SMITH_DB_PATH: z.string().optional().default(""),
 });
 
 export type SmithEnv = z.infer<typeof EnvSchema>;
 
 let cached: SmithEnv | null = null;
 
+function defaultDbPath(): string {
+  // Vercel serverless filesystem is read-only except /tmp
+  if (process.env["VERCEL"] || process.env["AWS_LAMBDA_FUNCTION_NAME"]) {
+    return "/tmp/smith.db";
+  }
+  return "data/smith.db";
+}
+
 export function getEnv(): SmithEnv {
   if (cached) return cached;
-  cached = EnvSchema.parse(process.env);
+  const parsed = EnvSchema.parse(process.env);
+  cached = {
+    ...parsed,
+    SMITH_DB_PATH: parsed.SMITH_DB_PATH || defaultDbPath(),
+  };
   return cached;
 }
 

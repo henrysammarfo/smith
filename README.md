@@ -1,52 +1,93 @@
 # SMITH.forge
 
-Meta-agent forge for **Syndicate by Maximor** — Track **Automated Agent Engineering**.
+**A tool that builds agents, tests them, learns from mistakes, and builds better ones.**
 
-Loop: **goal → architecture → eval → fail taxonomy → self-reflect → durable memory → mutate → report card**.
+Made for **Syndicate by Maximor** — track: **Automated Agent Engineering**.
 
-## Domains
-1. Messy invoice line-item extraction
-2. GROUNDS-lite claim check (TinyFish fetch + Tavily search)
+## What we built
 
-## Stack
-TanStack Start + Vite, Zod, better-sqlite3, OpenAI-compatible LLM client (**TensorMux** → AgentRouter → Ollama), Tavily, TinyFish.
+SMITH is a **meta-agent forge**. You give it a goal. It:
 
-**No mock LLM / no fake scores.** If the LLM is unreachable after heal, the forge fails loud.
+1. Builds an agent  
+2. Runs hard tests  
+3. Notes what failed  
+4. Writes short lessons  
+5. Saves those lessons in memory  
+6. Builds a better agent  
+7. Shows a clear report card  
 
-## Clone (Windows / any PC)
+We proved it works live: **Gen1 score 0.0 → Gen2 score 1.0** on messy invoices (7 tests).
 
-Repo: `https://github.com/henrysammarfo/smith`
+## How the loop looks
+
+![Learning loop](docs/diagrams/learning_loop.png)
+
+![Gen1 to Gen2](docs/diagrams/gen1_to_gen2.png)
+
+Open the same diagrams in Excalidraw:
+
+- [learning_loop.excalidraw](docs/diagrams/learning_loop.excalidraw)
+- [gen1_to_gen2.excalidraw](docs/diagrams/gen1_to_gen2.excalidraw)
+
+Built with [mermaid-to-excalidraw](https://github.com/excalidraw/mermaid-to-excalidraw) + [Excalidraw](https://github.com/excalidraw/excalidraw).
+
+## What works today
+
+| Thing | Status |
+|---|---|
+| Real LLM calls (no fake scores) | Works |
+| Gen1 → Gen2 learning on invoices | Works (0.0 → 1.0) |
+| Saved memory + self-reflection | Works |
+| TinyFish + Tavily tools | Works |
+| Dashboard forge UI | Works |
+| Agent Orchestrator (AO) desktop path | Documented |
+
+## Clone and run
 
 ```powershell
 git clone https://github.com/henrysammarfo/smith.git
 cd smith
 copy .env.example .env
-# edit .env — paste YOUR keys only (never commit .env)
+# put your keys in .env (never commit .env)
 bun install
 bun run heal
 bun run unit
-bun run smoke   # needs LLM key
+bun run smoke
 bun run dev
 ```
 
-Routes: `/` marketing · `/start` · `/dashboard` · `/dashboard/forge` · `/dashboard/agents` · `/dashboard/runs` · `/brand`
+Then open:
 
-## Secrets (safe-by-default)
-- Commit only `.env.example` (empty placeholders).
-- Real keys live in gitignored `.env` / `.env.local` on your machine.
-- Docs use `YOUR_*` placeholders — no live tokens in markdown.
-- Rotate any key that was ever pasted into chat/Discord after the event.
+- `/` — home  
+- `/dashboard/forge` — run the learning loop  
+- `/dashboard` — overview  
 
-## AO (mandatory for judging)
-- **Desktop:** install [Agent Orchestrator](https://aoagents.dev), then put **one** coding CLI on PATH.
-- Prefer **OpenCode + TensorMux** if AgentRouter quota is exhausted — see `docs/OPENCODE_AO_SETUP.md`.
-- Claude Code + AgentRouter: `docs/CLAUDE_CODE_AGENTROUTER.md` + `docs/AO_DESKTOP_SETUP.md`.
-- Cloud evidence only: `bun run ao:attempt` — never fabricate sessions.
+## Keys (simple)
+
+Copy `.env.example` → `.env`. Fill:
+
+- `TENSORMUX_API_KEY` (preferred)  
+- or `AGENTROUTER_API_KEY`  
+- optional: `TAVILY_API_KEY`, `TINYFISH_API_KEY`  
+
+Never commit `.env`.
+
+## For judges (3 minutes)
+
+See **[docs/FOR_JUDGES.md](docs/FOR_JUDGES.md)** and **[docs/TRACK1_DEMO.md](docs/TRACK1_DEMO.md)**.
+
+Short version: open `/dashboard/forge`, run forge twice, watch the score and memory grow.
 
 ## Submit
-See **[SUBMIT.md](./SUBMIT.md)** — Devpost is official (`https://syndicate-by-maximor.devpost.com/`). Discord showcase does not count.
 
-## Honesty
-See `docs/THREAT_MODEL.md`. Residual risk remains; we do not claim unhackable.
+See **[SUBMIT.md](./SUBMIT.md)** — official submit is **Devpost** only.
+
+## Live site
+
+Deployed on Vercel — link added after deploy.
+
+## Honest notes
+
+We do **not** claim perfect security. See [docs/THREAT_MODEL.md](docs/THREAT_MODEL.md).
 
 Built with [Lovable](https://lovable.dev).
