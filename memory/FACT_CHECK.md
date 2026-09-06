@@ -48,4 +48,5 @@ Last updated: 2026-09-06 (Cloud Agent session). Sources: Luma schema.org Event J
 - WAF may change; heal script must re-probe.
 - Local Ollama is live inference, not a score mock — still not a substitute for sponsor AgentRouter once a valid key exists.
 - Never claim unhackable / nation-state-proof.
-
+| Mermaid→Excalidraw diagrams for learning loop + Gen1→Gen2 | VERIFIED | `bun scripts/mermaid-to-excalidraw.mjs` wrote `docs/diagrams/*.excalidraw` |
+| SQLite on Vercel uses `/tmp/smith.db` | VERIFIED | `src/smith/env.ts` defaultDbPath |

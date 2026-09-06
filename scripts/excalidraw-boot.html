@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <pre id="log">loading…</pre>
+    <script type="module">
+      const log = (m) => {
+        document.getElementById("log").textContent += "\n" + m;
+        console.log(m);
+      };
+      try {
+        const mod = await import(
+          "https://esm.sh/@excalidraw/mermaid-to-excalidraw@1.1.2"
+        );
+        const ex = await import("https://esm.sh/@excalidraw/excalidraw@0.18.0");
+        window.__parse = mod.parseMermaidToExcalidraw;
+        window.__convert = ex.convertToExcalidrawElements;
+        window.__ready = true;
+        log("ready");
+      } catch (e) {
+        window.__err = String((e && e.stack) || e);
+        log("err " + window.__err);
+      }
+    </script>
+  </body>
+</html>
