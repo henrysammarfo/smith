@@ -12,11 +12,24 @@ export type InvoiceCase = {
   expected: InvoiceLine[];
 };
 
+// Bundle fixtures into the server build. Vercel serverless has no
+// `src/smith/evals/**/fixtures` on disk under `/var/task`.
+const bundledInvoiceFixtures = import.meta.glob("./fixtures/*.json", {
+  eager: true,
+  import: "default",
+}) as Record<string, InvoiceCase>;
+
 function fixturesDir() {
   return join(process.cwd(), "src/smith/evals/invoices/fixtures");
 }
 
 export function loadInvoiceCases(): InvoiceCase[] {
+  const fromBundle = Object.keys(bundledInvoiceFixtures)
+    .sort()
+    .map((k) => bundledInvoiceFixtures[k]!);
+  if (fromBundle.length > 0) return fromBundle;
+
+  // Local scripts / non-Vite runners: read from the repo tree.
   return readdirSync(fixturesDir())
     .filter((f) => f.endsWith(".json"))
     .sort()

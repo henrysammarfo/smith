@@ -56,3 +56,8 @@
 - Upserted TensorMux/AgentRouter/Tavily/TinyFish envs on Vercel `smith` via temporary token; production redeployed from `henrysammarfo/smith` main.
 - Fixed `/start` → `/dashboard/forge?workspaceId=` so Forge once is enabled after open.
 - Recording headed Chrome cursor/zoom demo (Gen1→Gen2) for Devpost.
+
+## 2026-09-06 — Bundle eval fixtures for Vercel + cursor demo retry
+- Production forge failed: `ENOENT ... /var/task/src/smith/evals/invoices/fixtures` (JSON not in serverless output).
+- Fix: `import.meta.glob` eager bundle of invoice/grounds fixtures + Nitro `serverAssets` for `src/smith/evals`.
+- Re-recording Gen1→Gen2 cursor/zoom demo after redeploy.
