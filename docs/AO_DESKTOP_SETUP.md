@@ -51,21 +51,75 @@ sudo apt -f install   # only if dpkg reports missing deps
 ### 3a) Coding agent on PATH (blocks “No coding agent found”)
 
 AO will refuse sessions until a coding-agent CLI is installed and visible on **PATH**.
-If you see **“No coding agent found” / “No agent CLI (Claude Code, Codex, etc.) was found on PATH”**, pick **one** and install it, then click **Check again** in AO (do not Quit).
+If you see **“No coding agent found” / “No agent CLI (Claude Code, Codex, etc.) was found on PATH”**, install **Claude Code + AgentRouter** (recommended), then click **Check again** in AO (do not Quit).
 
-| Agent | Install (pick one) | Verify |
-|---|---|---|
-| **Claude Code** (recommended for this track) | `npm i -g @anthropic-ai/claude-code` then `claude` login | `which claude && claude --version` |
-| **Codex** | Follow OpenAI Codex CLI install docs for your OS | `which codex && codex --version` |
-| **opencode** | Follow opencode terminal-agent install docs | `which opencode && opencode --version` |
-| **Copilot CLI** | `npm i -g @github/copilot` (or current GH Copilot CLI package) | `which copilot && copilot --version` |
+#### Recommended: Claude Code ↔ AgentRouter (Anthropic-compatible)
+
+Official AgentRouter docs: https://agentrouter.org/docs/index.html  
+Claude Code package: https://www.npmjs.com/package/@anthropic-ai/claude-code  
+Claude Code docs: https://docs.anthropic.com/en/docs/claude-code
+
+**Important:** Claude Code uses **Anthropic-compatible** config. Base URL is `https://agentrouter.org` with **no** `/v1`.  
+Do **not** mix that with the OpenAI-compatible URL `https://agentrouter.org/v1` (that style is for other OpenAI-SDK clients / SMITH forge fallbacks).
+
+```bash
+# 1) Node 18+
+node --version
+
+# 2) Install Claude Code CLI
+npm install -g @anthropic-ai/claude-code@latest
+
+# 3) Verify
+claude --version
+which claude
+
+# 4) AgentRouter env (macOS / Linux) — put YOUR key, not a pasted chat key
+export ANTHROPIC_AUTH_TOKEN="YOUR_AGENTROUTER_API_KEY"
+export ANTHROPIC_BASE_URL="https://agentrouter.org"
+export ANTHROPIC_MODEL="claude-opus-4-5"   # or another model AgentRouter lists
+
+# Make permanent (zsh):
+# echo 'export ANTHROPIC_AUTH_TOKEN=...' >> ~/.zshrc
+# echo 'export ANTHROPIC_BASE_URL=https://agentrouter.org' >> ~/.zshrc
+# echo 'export ANTHROPIC_MODEL=claude-opus-4-5' >> ~/.zshrc
+# source ~/.zshrc
+
+# 5) Test
+claude
+# prompt: only reply OK
+# then: list files in this directory and say if README exists — do not modify files
+```
+
+Windows PowerShell:
+
+```powershell
+$env:ANTHROPIC_AUTH_TOKEN="YOUR_AGENTROUTER_API_KEY"
+$env:ANTHROPIC_BASE_URL="https://agentrouter.org"
+$env:ANTHROPIC_MODEL="claude-opus-4-5"
+claude
+```
+
+If Claude Code asks to use the API key from environment variables on first launch, confirm **Yes**.
+
+| Config | Value |
+|---|---|
+| `ANTHROPIC_AUTH_TOKEN` | Your AgentRouter API key (sent as Bearer) |
+| `ANTHROPIC_BASE_URL` | `https://agentrouter.org` (**no** `/v1`) |
+| `ANTHROPIC_MODEL` | e.g. `claude-opus-4-5` (see AgentRouter model list) |
+
+Other AO-accepted CLIs (only if you prefer them): Codex / opencode / Copilot CLI — still need to be on PATH.
 
 Tips:
 - Install the CLI in the **same user environment** that launches AO (GUI apps on macOS often do not see Homebrew npm PATH — use a login-shell PATH or symlink into `/usr/local/bin`).
-- After install, return to AO → **Check again**. **Install selected** in the AO UI also works if you prefer AO to drive the install.
+- After install + env exports, return to AO → **Check again**. **Install selected** in the AO UI also works for the binary; you still need the AgentRouter env vars for Claude Code to call models.
 - You do **not** need all four agents — one healthy CLI is enough for judging sessions.
+- To undo AgentRouter override and return to Claude subscription login: unset `ANTHROPIC_AUTH_TOKEN`, `ANTHROPIC_BASE_URL`, `ANTHROPIC_MODEL`, then restart the terminal and run `claude`.
 
 Screenshot of this gate (your AO install): `docs/research/ao-coding-agent-gate.png`
+
+**Split of keys (do not mix):**
+- **Claude Code / AO worker** → AgentRouter via `ANTHROPIC_*` (this section)
+- **SMITH.forge app** → TensorMux in project `.env` (`TENSORMUX_*`) for invoice/grounds evals — separate from Claude Code
 
 ### 3b) Then continue
 
