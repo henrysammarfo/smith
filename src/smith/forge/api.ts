@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import { requireUser } from "../auth/session";
+import { requireUser } from "../auth/session.server";
 import { healLlmEndpoint } from "../llm/client";
 import {
   createWorkspace,

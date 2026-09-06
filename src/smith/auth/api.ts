@@ -1,20 +1,15 @@
 import { createServerFn } from "@tanstack/react-start";
-import { getCookie } from "@tanstack/react-start/server";
 import { z } from "zod";
 import { getDb, newId, nowIso } from "../db/smith-db";
-import { hashPassword, verifyPassword } from "./password";
+import { hashPassword, verifyPassword } from "./password.server";
 import {
   createSession,
   destroyCurrentSession,
-  destroySession,
   getSessionUser,
-  requireUser,
-  SESSION_COOKIE,
   type SessionUser,
-} from "./session";
+} from "./session.server";
 
 export type AuthUser = SessionUser;
-export { requireUser };
 
 const registerSchema = z.object({
   email: z.string().email().max(320),
@@ -75,9 +70,7 @@ export const loginFn = createServerFn({ method: "POST" })
       throw new Error("Invalid email or password");
     }
 
-    const prior = getCookie(SESSION_COOKIE);
-    if (prior) destroySession(prior);
-
+    destroyCurrentSession();
     createSession(row.id);
     return {
       id: row.id,
